@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
   const char* fasta = argv[optind];
 
   // say hello
-  fprintf(stderr, "This is %s %s\n", EXENAME, VERSION);
+  if (!quiet) fprintf(stderr, "This is %s %s\n", EXENAME, VERSION);
 
   // open filename via libz
   gzFile fp = gzopen(fasta, "r"); 
