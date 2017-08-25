@@ -8,7 +8,7 @@ MAINTAINER ap13@sanger.ac.uk
 #
 # Pull in dependancies
 #
-RUN apt-get update -qq && apt-get install -y build_essentials git zlib1g-dev
+RUN apt-get update -qq && apt-get install -y build-essential git zlib1g-dev automake autoconf libtool check pkg-config
 
 # Checkout the latest version of the software
 RUN git clone https://github.com/tseemann/snp-dists.git

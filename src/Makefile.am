@@ -4,7 +4,7 @@ snpdistsinclude_HEADERS=kseq.h snpdists.h
 bin_PROGRAMS = snp-dists
 snp_dists_SOURCES = main.c
 snp_dists_CFLAGS = --std=c99
-snp_dists_LDADD = libsnp-dists.la
+snp_dists_LDADD = libsnp-dists.la -lz
 
 # libsnp_dists.so is our library
 lib_LTLIBRARIES = libsnp-dists.la
@@ -18,4 +18,4 @@ run_all_tests_SOURCES = \
 	../tests/check-snp-dists.c \
 	../tests/run-all-tests.c
 run_all_tests_CFLAGS = $(CHECK_CFLAGS) $(CFLAGS)
-run_all_tests_LDADD = libsnp-dists.la -lpthread $(CHECK_LIBS)
+run_all_tests_LDADD = libsnp-dists.la $(CHECK_LIBS) -lz
