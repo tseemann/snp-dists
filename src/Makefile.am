@@ -1,14 +1,15 @@
-snp-distsincludedir=$(includedir)/snp-dists
-snp-distsinclude_HEADERS=kseq.h snpdists.h
+snpdistsincludedir=$(includedir)/snp-dists
+snpdistsinclude_HEADERS=kseq.h snpdists.h
 
 bin_PROGRAMS = snp-dists
-snp-dists_SOURCES = main.c
-snp-dists_LDADD = libsnp-dists.la -lpthread
+snp_dists_SOURCES = main.c
+snp_dists_CFLAGS = --std=c99
+snp_dists_LDADD = libsnp-dists.la
 
-# libsnp-dists.so is our library
+# libsnp_dists.so is our library
 lib_LTLIBRARIES = libsnp-dists.la
-libsnp-dists_la_SOURCES = snpdists.c
-libsnp-dists_la_LDFLAGS= -version-info 1:0
+libsnp_dists_la_SOURCES = snpdists.c
+libsnp_dists_la_LDFLAGS= -version-info 1:0
 
 # "make check" target
 TESTS = $(check_PROGRAMS)
