@@ -1,89 +1,84 @@
+/*
+ *  Torsten Seemann
+ *  Copyright (C) 2017 Torsten Seemann
+ *  
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License
+ *  as published by the Free Software Foundation; either version 3
+ *  of the License, or (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+
 #include <unistd.h>
 #include <zlib.h>
 #include <stdio.h>
+#include <getopt.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include "../config.h"
 #include "kseq.h"
+#include "snpdists.h"
 
-#define VERSION "0.1"
-#define MAX_SEQ	10000
+#define PROGRAM_NAME "snp-dists"
+#define PROGRAM_VERSION PACKAGE_VERSION
 
-KSEQ_INIT(gzFile, gzread)
+#define GITHUB_URL "https://github.com/tseemann/snp-dists"
+#define AUTHOR "Torsten Seemann"
 
 //------------------------------------------------------------------------
-int distance(const char* a, const char* b, int L)
+void show_help(int retcode)
 {
-  int diff=0;
-  for (int i=0; i < L; i++) {
-    if (a[i] != b[i]) {
-      diff++;
-    }
-  }
-  return diff;
+  FILE* out = (retcode == EXIT_SUCCESS ? stdout : stderr);
+  fprintf(out, "SYNOPSIS\n  Pairwise SNP distance matrix from a FASTA alignment\n");
+  fprintf(out, "USAGE\n  %s [options] alignment.fasta > matrix.tsv\n", PROGRAM_NAME);
+  fprintf(out, "OPTIONS\n");
+  fprintf(out, "  -h\tShow this help\n");
+  fprintf(out, "  -v\tPrint version and exit\n");
+  fprintf(out, "  -q\tQuiet mode; do not print progress information\n");
+  fprintf(out, "  -c\tOutput CSV instead of TSV\n");
+  fprintf(out, "  -b\tBlank top left corner cell instead of '%s %s'\n", PROGRAM_NAME, PROGRAM_VERSION);
+  fprintf(out, "URL\n  %s (%s)\n", GITHUB_URL, AUTHOR);
+  exit(retcode);
 }
  
 //------------------------------------------------------------------------
 int main(int argc, char *argv[])
 {
-    if (argc == 1) {
-        fprintf(stderr, "Usage: %s <alignment.fasta] > <matrix.tsv>\n", argv[0]);
-        return 1;
+  // parse command line parameters
+  int opt, quiet=0, csv=0, corner=1;
+  while ((opt = getopt(argc, argv, "hqvcb")) != -1) {
+    switch (opt) {
+      case 'h': show_help(EXIT_SUCCESS); break;
+      case 'q': quiet=1; break;
+      case 'c': csv=1; break;
+      case 'b': corner=0; break;
+      case 'v': printf("%s %s\n", PROGRAM_NAME, PROGRAM_VERSION); exit(EXIT_SUCCESS);
+      default : show_help(EXIT_FAILURE);
     }
+  } 
 
-    gzFile fp;
-    char* row[MAX_SEQ];
-    char* name[MAX_SEQ];
-    kseq_t *seq;
-    int l;
-
-    fp = gzopen(argv[1], "r"); 
-    if (! fp) {
-      fprintf(stderr, "ERROR: Could not open filename '%s'\n", argv[1]);
-      exit(EXIT_FAILURE);
-    }
-    
-    seq = kseq_init(fp); 
-    int N=0;
-    int L=-1;
-
-    while ((l = kseq_read(seq)) >= 0) {
-        if (L < 0) { 
-          L = l; 
-        }
-        if (l != L) {
-          fprintf(stderr, "ERROR: sequence #%d '%s' has length %d but expected %d\n", N+1, seq->name.s, l, L);
-          exit(EXIT_FAILURE);
-        }
-//        fprintf(stderr, "INFO: %d %s %s\n", N, seq->name.s, seq->seq.s);  // seq.l is length?
-        row[N] = (char*) calloc(seq->seq.l + 1, sizeof(char));
-        strcpy(row[N], seq->seq.s);
-        name[N] = (char*) calloc(seq->name.l + 1, sizeof(char));
-        strcpy(name[N], seq->name.s);
-//        fprintf(stderr, "INFO: %d %s %s\n", N, name[N], row[N]);  // seq.l is length?
-        N++;
-    }
-    kseq_destroy(seq); 
-    gzclose(fp); 
-
-    fprintf(stderr, "Read %d sequences of length %d\n", N, L);
-
-    // header row
-    printf("SNP-DIST %s", VERSION);
-    for (int j=0; j < N; j++) {
-      printf("\t%s", name[j]);
-    }
-    printf("\n");
-
-    // Output the distance matrix to stdout    
-    for (int j=0; j < N; j++) {
-      printf("%s\t", name[j]);
-      for (int i=0; i < N; i++) {
-       int d = distance(row[j], row[i], L);
-       printf("\t%d", d);
-      }
-      printf("\n");
-    }   
-
+  // require a filename argument
+  if (optind >= argc) {
+    show_help(EXIT_FAILURE);
     return 0;
+  }
+  char* fasta = argv[optind];
+
+  // say hello
+  if (!quiet) fprintf(stderr, "This is %s %s\n", PROGRAM_NAME, PROGRAM_VERSION);
+
+  compute_distance_matrix(quiet, csv,corner, fasta, PROGRAM_NAME);
+
 }
 
-//------------------------------------------------------------------------
+
 
