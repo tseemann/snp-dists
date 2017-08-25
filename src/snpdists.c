@@ -17,19 +17,21 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <zlib.h>
-#include <regex.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 #include <sys/types.h>
+#include "../config.h"
 #include "kseq.h"
 #include "snpdists.h"
 
 KSEQ_INIT(gzFile, gzread)
 
-int distance(const char* restrict a, const char* restrict b, const int L)
+int distance(const char* restrict a, char * restrict b, const int L)
 {
   int diff=0;
   for (int i=0; i < L; i++) {
@@ -40,7 +42,7 @@ int distance(const char* restrict a, const char* restrict b, const int L)
   return diff;
 }
 
-int compute_distance_matrix(int quiet, int csv, int corner, char* fasta)
+int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* program_name)
 {
 
   // open filename via libz
@@ -68,7 +70,7 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta)
       int estN = (int) filesize / (kseq->name.l + 1 + kseq->seq.l + 1);
       if (!quiet) fprintf(stderr, "Estimated alignment to contain %d sequences.\n", estN);
       if (estN > MAX_SEQ) {
-        fprintf(stderr, "%s can only handle %d sequences at most. Please change MAX_SEQ and recompile.\n", PROGRAM_NAME, MAX_SEQ);
+        fprintf(stderr, "%s can only handle %d sequences at most. Please change MAX_SEQ and recompile.\n", program_name, MAX_SEQ);
         exit(EXIT_FAILURE);
       }
       //seq = (char**) calloc( sizeof(char)*kseq->seq.l, estN+10 );
@@ -98,13 +100,14 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta)
   // output TSV or CSV
   char sep = csv ? ',' : '\t';
   
-  print_header(corner, N, sep, name);
-  print_body( N, sep, name, seq);
+  print_header(corner, N, sep, name, program_name);
+  print_body( N, sep, name, seq, L);
 
   return 0;
 }
 
-void print_body( int N, char sep, char* name, char* seq)
+// print out the main body of the matrix
+void print_body( int N, char sep, char ** name, char ** seq, int L)
 {
   // Output the distance matrix to stdout (does full matrix, wasted computation i know)
   for (int j=0; j < N; j++) {
@@ -117,11 +120,12 @@ void print_body( int N, char sep, char* name, char* seq)
   }   
 }
 
-void print_header(int corner, int N, char sep, char* name)
+// print out the header and optionally have the program name and version in the top corner
+void print_header(int corner, int N, char sep, char ** name, char * program_name)
 {
   // header seq
   if (corner) 
-    printf("%s %s", PROGRAM_NAME, PROGRAM_VERSION);
+    printf("%s %s", program_name, PROGRAM_VERSION);
   for (int j=0; j < N; j++) {
     printf("%c%s", sep, name[j]);
   }

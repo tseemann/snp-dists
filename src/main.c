@@ -24,6 +24,7 @@
 #include <getopt.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include "../config.h"
 #include "kseq.h"
 #include "snpdists.h"
 
@@ -70,12 +71,12 @@ int main(int argc, char *argv[])
     show_help(EXIT_FAILURE);
     return 0;
   }
-  const char* fasta = argv[optind];
+  char* fasta = argv[optind];
 
   // say hello
   if (!quiet) fprintf(stderr, "This is %s %s\n", PROGRAM_NAME, PROGRAM_VERSION);
 
-  compute_distance_matrix(quiet, csv,corner, fasta);
+  compute_distance_matrix(quiet, csv,corner, fasta, PROGRAM_NAME);
 
 }
 

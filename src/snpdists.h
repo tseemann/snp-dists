@@ -22,10 +22,11 @@
 
 #include "kseq.h"
 
-int distance(const char* restrict a, const char* restrict b, const int L);
-int compute_distance_matrix(int quiet, int csv, int corner, char* fasta);
-void print_header(int corner, int N, char sep, char* name);
-void print_body( int N, char sep, char* name, char* seq);
+int distance(const char* restrict a, char* restrict b, const int L);
+int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char * program_name);
+void print_header(int corner, int N, char sep, char ** name, char * program_name);
+void print_body( int N, char sep, char ** name, char ** seq, int L);
 
+#define PROGRAM_VERSION PACKAGE_VERSION
 #define MAX_SEQ 1000000
 #endif
