@@ -31,7 +31,7 @@
 
 KSEQ_INIT(gzFile, gzread)
 
-int distance(const char* restrict a, char * restrict b, const int L)
+int distance(const char* restrict a, char* restrict b, const int L)
 {
   int diff=0;
   for (int i=0; i < L; i++) {
@@ -44,7 +44,6 @@ int distance(const char* restrict a, char * restrict b, const int L)
 
 int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* program_name)
 {
-
   // open filename via libz
   gzFile fp = gzopen(fasta, "r"); 
   if (! fp) {
@@ -64,7 +63,9 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* p
   int l, N=0, L=-1;
   kseq_t* kseq = kseq_init(fp);
 
+ // read one seq at a time
   while ((l = kseq_read(kseq)) >= 0) {
+    // if first seq, do some preparation
     if (L < 0) { 
       L = l; 
       int estN = (int) filesize / (kseq->name.l + 1 + kseq->seq.l + 1);
@@ -73,23 +74,25 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* p
         fprintf(stderr, "%s can only handle %d sequences at most. Please change MAX_SEQ and recompile.\n", program_name, MAX_SEQ);
         exit(EXIT_FAILURE);
       }
-      //seq = (char**) calloc( sizeof(char)*kseq->seq.l, estN+10 );
     }
+    // check lengths are consistent for all seqs
     if (l != L) {
       fprintf(stderr, "ERROR: sequence #%d '%s' has length %d but expected %d\n", N+1, kseq->name.s, l, L);
       exit(EXIT_FAILURE);
     }
-//        fprintf(stderr, "INFO: %d %s %s\n", N, seq->name.s, seq->seq.s);  // seq.l is length?
+    // keep a copy of the seq and name
     seq[N] = (char*) calloc(kseq->seq.l + 1, sizeof(char));
     strcpy(seq[N], kseq->seq.s);
     name[N] = (char*) calloc(kseq->name.l + 1, sizeof(char));
     strcpy(name[N], kseq->name.s);
-//        fprintf(stderr, "INFO: %d %s %s\n", N, name[N], seq[N]);  // seq.l is length?
+    
+    // onto the next one!
     N++;
   }
   kseq_destroy(kseq); 
   gzclose(fp); 
 
+  // empty or bad file
   if (N < 1) {
     fprintf(stderr, "ERROR: file contained no sequences\n");
     exit(EXIT_FAILURE);
@@ -107,7 +110,7 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* p
 }
 
 // print out the main body of the matrix
-void print_body( int N, char sep, char ** name, char ** seq, int L)
+void print_body( int N, char sep, char** name, char** seq, int L)
 {
   // Output the distance matrix to stdout (does full matrix, wasted computation i know)
   for (int j=0; j < N; j++) {
@@ -121,7 +124,7 @@ void print_body( int N, char sep, char ** name, char ** seq, int L)
 }
 
 // print out the header and optionally have the program name and version in the top corner
-void print_header(int corner, int N, char sep, char ** name, char * program_name)
+void print_header(int corner, int N, char sep, char** name, char* program_name)
 {
   // header seq
   if (corner) 
