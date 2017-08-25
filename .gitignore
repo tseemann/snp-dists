@@ -1,55 +1,34 @@
-# Prerequisites
-*.d
-
-# Object files
 *.o
-*.ko
-*.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
+snp_dists
+tests/run_all_tests
+src/run_all_tests*
+src/test-suite.log
+Makefile
+.DS_Store
+src/Makefile
+src/.deps
+autom4te.cache/*
 *.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
-
-# backups
 *~
+src/.libs/*
+src/libsnp_dists.la
+Makefile.in
+aclocal.m4
+config.*
+configure
+depcomp
+graph
+install-sh
+libtool
+ltmain.sh
+missing
+src/Makefile.in
+stamp-h1
+test-driver
+compile
+.Tpo
+libsnp-dists.la
+run-all-tests*
+src/snp-dists
+tests/.deps/*
+tests/.dirstamp
