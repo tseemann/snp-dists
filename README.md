@@ -63,6 +63,16 @@ To use it you would use a command such as this (substituting in your directories
 docker run --rm -it -v /home/ubuntu/data:/data tseemann/snpdists tseemann/snpdists 
 ```
 
+## Debian/Ubuntu
+To install on a modern Debian or Ubuntu based system, run the commands below as root:
+
+```
+apt-get update -qq && apt-get install -y build-essential git zlib1g-dev automake autoconf libtool check pkg-config
+git clone https://github.com/tseemann/snp-dists.git
+cd snp-dists && autoreconf -i -f && ./configure && make && make install
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+```
+
 # Options
 
 ## snp-dists -h (help)

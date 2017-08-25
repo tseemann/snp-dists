@@ -18,3 +18,5 @@ RUN cd snp-dists && autoreconf -i -f && ./configure && make
 
 # Install 
 RUN cd snp-dists && make install
+
+ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
