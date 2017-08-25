@@ -30,15 +30,37 @@ seq4            3       4       4       0
 ```
 
 # Installation
-
+## From source
 `snp-dists` is written in C to the C99 standard and only depends on `libz`.
+Ensure you have a standard development environment installed (e.g. gcc, automake, autoconf, libtool).
 
-```bash
+```
 git clone https://github.com/tseemann/snp-dists.git
-cd snp-dists/src
+cd snp-dists
+autoreconf -i -f
+./configure
 make
-# optionally install to /usr/local/bin 
-make PREFIX=/usr/local install  
+sudo make install
+```
+
+## Docker
+Install [Docker](https://www.docker.com/).  To build the container from scratch:
+
+```
+git clone https://github.com/tseemann/snp-dists.git
+cd snp-dists
+docker build .
+```
+
+Alternatively you can pull in a prebuilt container from docker hub.
+
+```
+docker pull tseemann/snpdists
+```
+
+To use it you would use a command such as this (substituting in your directories), where your files are assumed to be stored in /home/ubuntu/data:
+```
+docker run --rm -it -v /home/ubuntu/data:/data tseemann/snpdists tseemann/snpdists 
 ```
 
 # Options
@@ -96,9 +118,8 @@ seq4    3       4       4       0
 
 File problems here: https://github.com/tseemann/snp-dists/issues
 
-# Licence
-
-GPLv3
+# License
+[GPLv3](https://raw.githubusercontent.com/tseemann/snp-dists/master/LICENSE)
 
 # Author
 
