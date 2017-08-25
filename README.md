@@ -30,6 +30,13 @@ seq4            3       4       4       0
 ```
 
 # Installation
+
+## Homebrew
+```
+brew tap tseemann/bioinformatics-linux
+brew install snp-dists
+```
+
 ## From source
 `snp-dists` is written in C to the C99 standard and only depends on `libz`.
 Ensure you have a standard development environment installed (e.g. gcc, automake, autoconf, libtool).
@@ -58,7 +65,10 @@ Alternatively you can pull in a prebuilt container from docker hub.
 docker pull tseemann/snpdists
 ```
 
-To use it you would use a command such as this (substituting in your directories), where your files are assumed to be stored in /home/ubuntu/data:
+To use it you would use a command such as this (substituting in your
+directories), where your files are assumed to be stored in
+`/home/ubuntu/data`:
+
 ```
 docker run --rm -it -v /home/ubuntu/data:/data tseemann/snpdists tseemann/snpdists 
 ```
@@ -68,6 +78,16 @@ To install on a modern Debian or Ubuntu based system, run the commands below as 
 
 ```
 apt-get update -qq && apt-get install -y build-essential git zlib1g-dev automake autoconf libtool check pkg-config
+git clone https://github.com/tseemann/snp-dists.git
+cd snp-dists && autoreconf -i -f && ./configure && make && make install
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+```
+
+## RHEL/Centos
+To install on a modern RHEL or Centos based system, run the commands below as root:
+```
+yum groupinstall 'Development Tools' 
+yum install git check
 git clone https://github.com/tseemann/snp-dists.git
 cd snp-dists && autoreconf -i -f && ./configure && make && make install
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
@@ -89,7 +109,7 @@ OPTIONS
   -c    Output CSV instead of TSV
   -b    Blank top left corner cell instead of 'snp-dists 0.2'
 URL
-  https://github.com/tseemann/snp-dists (Torsten Seemann)
+  https://github.com/tseemann/snp-dists
 ```
 
 ## snp-dists -v (version)
@@ -131,6 +151,8 @@ File problems here: https://github.com/tseemann/snp-dists/issues
 # License
 [GPLv3](https://raw.githubusercontent.com/tseemann/snp-dists/master/LICENSE)
 
-# Author
+# Authors
 
-Torsten Seemann
+* Torsten Seemann
+* Andrew J Page
+
