@@ -16,3 +16,14 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
+#ifndef _SNPDISTS_H_
+#define _SNPDISTS_H_
+
+#include "kseq.h"
+
+int distance(const char* restrict a, const char* restrict b, const int L);
+int compute_distance_matrix(int quiet, int csv, int corner, char* fasta);
+
+#define MAX_SEQ 1000000
+#endif
