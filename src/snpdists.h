@@ -24,6 +24,8 @@
 
 int distance(const char* restrict a, const char* restrict b, const int L);
 int compute_distance_matrix(int quiet, int csv, int corner, char* fasta);
+void print_header(int corner, int N, char sep, char* name);
+void print_body( int N, char sep, char* name, char* seq);
 
 #define MAX_SEQ 1000000
 #endif

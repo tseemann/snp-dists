@@ -97,15 +97,15 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta)
 
   // output TSV or CSV
   char sep = csv ? ',' : '\t';
+  
+  print_header(corner, N, sep, name);
+  print_body( N, sep, name, seq);
 
-  // header seq
-  if (corner) 
-    printf("%s %s", PROGRAM_NAME, PROGRAM_VERSION);
-  for (int j=0; j < N; j++) {
-    printf("%c%s", sep, name[j]);
-  }
-  printf("\n");
+  return 0;
+}
 
+void print_body( int N, char sep, char* name, char* seq)
+{
   // Output the distance matrix to stdout (does full matrix, wasted computation i know)
   for (int j=0; j < N; j++) {
     printf("%s", name[j]);
@@ -115,5 +115,15 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta)
     }
     printf("\n");
   }   
-  return 0;
+}
+
+void print_header(int corner, int N, char sep, char* name)
+{
+  // header seq
+  if (corner) 
+    printf("%s %s", PROGRAM_NAME, PROGRAM_VERSION);
+  for (int j=0; j < N; j++) {
+    printf("%c%s", sep, name[j]);
+  }
+  printf("\n");
 }
