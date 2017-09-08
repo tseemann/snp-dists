@@ -61,11 +61,11 @@ int is_unknown(char base)
   }
 }
 
-int distance(const char* restrict a, char * restrict b, const int L, int only_acgt)
+int distance(char * a, char * b, const int L, int only_acgt)
 {
   int diff=0;
-  
-  for (int i=0; i < L; i++) {
+  int i;
+  for(i=0; i < L; i++) {
     if(only_acgt == 1 && is_acgt(a[i]) == 1 && is_acgt(b[i]) == 1 &&  a[i] != b[i])
     {
       diff++;
@@ -145,10 +145,12 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* p
 // print out the main body of the matrix
 void print_body( int N, char sep, char ** name, char ** seq, int L, int only_acgt)
 {
+  int i;
+  int j;
   // Output the distance matrix to stdout (does full matrix, wasted computation i know)
-  for (int j=0; j < N; j++) {
+  for (j=0; j < N; j++) {
     printf("%s", name[j]);
-    for (int i=0; i < N; i++) {
+    for (i=0; i < N; i++) {
       int d = distance(seq[j], seq[i], L, only_acgt);
       printf("%c%d", sep, d);
     }
@@ -159,10 +161,11 @@ void print_body( int N, char sep, char ** name, char ** seq, int L, int only_acg
 // print out the header and optionally have the program name and version in the top corner
 void print_header(int corner, int N, char sep, char ** name, char * program_name)
 {
+  int j;
   // header seq
   if (corner) 
     printf("%s %s", program_name, PROGRAM_VERSION);
-  for (int j=0; j < N; j++) {
+  for (j=0; j < N; j++) {
     printf("%c%s", sep, name[j]);
   }
   printf("\n");
