@@ -32,7 +32,6 @@
 #define PROGRAM_VERSION PACKAGE_VERSION
 
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
-#define AUTHOR "Torsten Seemann"
 
 //------------------------------------------------------------------------
 void show_help(int retcode)
@@ -47,7 +46,7 @@ void show_help(int retcode)
   fprintf(out, "  -c\tOutput CSV instead of TSV\n");
   fprintf(out, "  -a\tOnly compare bases containing ACGT/acgt\n");
   fprintf(out, "  -b\tBlank top left corner cell instead of '%s %s'\n", PROGRAM_NAME, PROGRAM_VERSION);
-  fprintf(out, "URL\n  %s (%s)\n", GITHUB_URL, AUTHOR);
+  fprintf(out, "URL\n  %s\n", GITHUB_URL);
   exit(retcode);
 }
  
@@ -71,7 +70,6 @@ int main(int argc, char *argv[])
   // require a filename argument
   if (optind >= argc) {
     show_help(EXIT_FAILURE);
-    return 0;
   }
   char* fasta = argv[optind];
 
@@ -79,8 +77,4 @@ int main(int argc, char *argv[])
   if (!quiet) fprintf(stderr, "This is %s %s\n", PROGRAM_NAME, PROGRAM_VERSION);
 
   compute_distance_matrix(quiet, csv,corner, fasta, PROGRAM_NAME, only_acgt);
-
 }
-
-
-

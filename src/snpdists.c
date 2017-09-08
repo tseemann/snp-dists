@@ -80,7 +80,6 @@ int distance(char * a, char * b, const int L, int only_acgt)
 
 int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* program_name, int only_acgt)
 {
-
   // open filename via libz
   gzFile fp = gzopen(fasta, "r"); 
   if (! fp) {
@@ -100,7 +99,9 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* p
   int l, N=0, L=-1;
   kseq_t* kseq = kseq_init(fp);
 
+ // read one seq at a time
   while ((l = kseq_read(kseq)) >= 0) {
+    // if first seq, do some preparation
     if (L < 0) { 
       L = l; 
       int estN = (int) filesize / (kseq->name.l + 1 + kseq->seq.l + 1);
@@ -109,23 +110,25 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* p
         fprintf(stderr, "%s can only handle %d sequences at most. Please change MAX_SEQ and recompile.\n", program_name, MAX_SEQ);
         exit(EXIT_FAILURE);
       }
-      //seq = (char**) calloc( sizeof(char)*kseq->seq.l, estN+10 );
     }
+    // check lengths are consistent for all seqs
     if (l != L) {
       fprintf(stderr, "ERROR: sequence #%d '%s' has length %d but expected %d\n", N+1, kseq->name.s, l, L);
       exit(EXIT_FAILURE);
     }
-//        fprintf(stderr, "INFO: %d %s %s\n", N, seq->name.s, seq->seq.s);  // seq.l is length?
+    // keep a copy of the seq and name
     seq[N] = (char*) calloc(kseq->seq.l + 1, sizeof(char));
     strcpy(seq[N], kseq->seq.s);
     name[N] = (char*) calloc(kseq->name.l + 1, sizeof(char));
     strcpy(name[N], kseq->name.s);
-//        fprintf(stderr, "INFO: %d %s %s\n", N, name[N], seq[N]);  // seq.l is length?
+    
+    // onto the next one!
     N++;
   }
   kseq_destroy(kseq); 
   gzclose(fp); 
 
+  // empty or bad file
   if (N < 1) {
     fprintf(stderr, "ERROR: file contained no sequences\n");
     exit(EXIT_FAILURE);
@@ -159,7 +162,7 @@ void print_body( int N, char sep, char ** name, char ** seq, int L, int only_acg
 }
 
 // print out the header and optionally have the program name and version in the top corner
-void print_header(int corner, int N, char sep, char ** name, char * program_name)
+void print_header(int corner, int N, char sep, char** name, char* program_name)
 {
   int j;
   // header seq
