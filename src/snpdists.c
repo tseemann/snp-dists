@@ -31,18 +31,54 @@
 
 KSEQ_INIT(gzFile, gzread)
 
-int distance(const char* restrict a, char * restrict b, const int L)
+int is_acgt(char base)
+{
+  switch (base) {
+    case 'A':
+    case 'C':
+    case 'G':
+    case 'T':
+    case 'a':
+    case 'c':
+    case 'g':
+    case 't':
+      return 1;
+    default:
+      return 0;
+  }
+}
+
+int is_unknown(char base)
+{
+  switch (base) {
+    case 'N':
+    case 'n':
+    case '-':
+    case '?':
+      return 1;
+    default:
+      return 0;
+  }
+}
+
+int distance(const char* restrict a, char * restrict b, const int L, int only_acgt)
 {
   int diff=0;
+  
   for (int i=0; i < L; i++) {
-    if (a[i] != b[i]) {
+    if(only_acgt == 1 && is_acgt(a[i]) == 1 && is_acgt(b[i]) == 1 &&  a[i] != b[i])
+    {
+      diff++;
+    }
+    else if(only_acgt == 0 && a[i] != b[i])
+    {
       diff++;
     }
   }
   return diff;
 }
 
-int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* program_name)
+int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* program_name, int only_acgt)
 {
 
   // open filename via libz
@@ -101,19 +137,19 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* p
   char sep = csv ? ',' : '\t';
   
   print_header(corner, N, sep, name, program_name);
-  print_body( N, sep, name, seq, L);
+  print_body( N, sep, name, seq, L, only_acgt);
 
   return 0;
 }
 
 // print out the main body of the matrix
-void print_body( int N, char sep, char ** name, char ** seq, int L)
+void print_body( int N, char sep, char ** name, char ** seq, int L, int only_acgt)
 {
   // Output the distance matrix to stdout (does full matrix, wasted computation i know)
   for (int j=0; j < N; j++) {
     printf("%s", name[j]);
     for (int i=0; i < N; i++) {
-      int d = distance(seq[j], seq[i], L);
+      int d = distance(seq[j], seq[i], L, only_acgt);
       printf("%c%d", sep, d);
     }
     printf("\n");

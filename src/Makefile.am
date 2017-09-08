@@ -15,7 +15,7 @@ libsnp_dists_la_LDFLAGS= -version-info 1:0
 TESTS = $(check_PROGRAMS)
 check_PROGRAMS = run-all-tests
 run_all_tests_SOURCES = \
-	../tests/check-snp-dists.c \
+	../tests/check-snpdists.c \
 	../tests/run-all-tests.c
 run_all_tests_CFLAGS = $(CHECK_CFLAGS) $(CFLAGS)
 run_all_tests_LDADD = libsnp-dists.la $(CHECK_LIBS) -lz
