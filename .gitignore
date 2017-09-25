@@ -1,3 +1,7 @@
+compile
+configure
+depcomp
+missing
 *.o
 snp_dists
 tests/run_all_tests
