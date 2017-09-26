@@ -44,6 +44,7 @@ void show_help(int retcode)
   fprintf(out, "  -v\tPrint version and exit\n");
   fprintf(out, "  -q\tQuiet mode; do not print progress information\n");
   fprintf(out, "  -c\tOutput CSV instead of TSV\n");
+  fprintf(out, "  -a\tOnly compare bases containing ACGT/acgt\n");
   fprintf(out, "  -b\tBlank top left corner cell instead of '%s %s'\n", PROGRAM_NAME, PROGRAM_VERSION);
   fprintf(out, "URL\n  %s\n", GITHUB_URL);
   exit(retcode);
@@ -53,13 +54,14 @@ void show_help(int retcode)
 int main(int argc, char *argv[])
 {
   // parse command line parameters
-  int opt, quiet=0, csv=0, corner=1;
-  while ((opt = getopt(argc, argv, "hqvcb")) != -1) {
+  int opt, quiet=0, csv=0, corner=1, only_acgt=0;
+  while ((opt = getopt(argc, argv, "hqvcba")) != -1) {
     switch (opt) {
       case 'h': show_help(EXIT_SUCCESS); break;
       case 'q': quiet=1; break;
       case 'c': csv=1; break;
       case 'b': corner=0; break;
+      case 'a': only_acgt=1; break;
       case 'v': printf("%s %s\n", PROGRAM_NAME, PROGRAM_VERSION); exit(EXIT_SUCCESS);
       default : show_help(EXIT_FAILURE);
     }
@@ -74,5 +76,5 @@ int main(int argc, char *argv[])
   // say hello
   if (!quiet) fprintf(stderr, "This is %s %s\n", PROGRAM_NAME, PROGRAM_VERSION);
 
-  compute_distance_matrix(quiet, csv,corner, fasta, PROGRAM_NAME);
+  compute_distance_matrix(quiet, csv,corner, fasta, PROGRAM_NAME, only_acgt);
 }

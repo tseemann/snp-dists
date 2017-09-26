@@ -28,10 +28,35 @@
 #include "check-snpdists.h"
 #include "snpdists.h"
 
-START_TEST (check_small_valid_file)
+START_TEST (check_distance_calculation)
 {
-  // insert your test here.
-  fail_unless(1==1);
+  // If its the same there are no differences.
+  fail_unless(distance("AA","AA", 2, 0) == 0);
+  
+  // 1 difference
+  fail_unless(distance("AA","AG", 2, 0) == 1);
+  
+  // all different
+  fail_unless(distance("AA","GG", 2, 0) == 2);
+  
+  // 1 different in the middle
+  fail_unless(distance("AAA","AGA", 3, 0) == 1); 
+}
+END_TEST
+  
+START_TEST (check_distance_only_acgt)
+{
+  // If its the same there are no differences.
+  fail_unless(distance("AA","AA", 2, 1) == 0);
+  
+  // 1 difference
+  fail_unless(distance("AA","AG", 2, 1) == 1);
+
+  // all contain a non-ACGT character
+  fail_unless(distance("ZZZ","AAA", 3, 1) == 0); 
+  
+  // Mix of ACGT and non-ACGT
+  fail_unless(distance("ZZZGA","AAAAA", 5, 1) == 1); 
 }
 END_TEST
 
@@ -40,7 +65,8 @@ Suite * snpdists_suite (void)
   Suite *s = suite_create ("Creating_snp-dists");
 
   TCase *tc_snpdists = tcase_create ("snpdists");
-  tcase_add_test (tc_snpdists, check_small_valid_file);
+  tcase_add_test (tc_snpdists, check_distance_calculation);
+  tcase_add_test (tc_snpdists, check_distance_only_acgt);
   suite_add_tcase (s, tc_snpdists);
   return s;
 }
