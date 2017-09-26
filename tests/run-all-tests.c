@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <check.h>
-#include "check-snp-dists.h"
+#include "check-snpdists.h"
 
 int main (void)
 {
