@@ -117,10 +117,10 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* p
       exit(EXIT_FAILURE);
     }
     // keep a copy of the seq and name
-    seq[N] = (char*) calloc(kseq->seq.l + 1, sizeof(char));
-    strcpy(seq[N], kseq->seq.s);
-    name[N] = (char*) calloc(kseq->name.l + 1, sizeof(char));
-    strcpy(name[N], kseq->name.s);
+    seq[N] = malloc(kseq->seq.l + 1);
+    memcpy(seq[N], kseq->seq.s, kseq->seq.l + 1);
+    name[N] = malloc(kseq->name.l + 1);
+    memcpy(name[N], kseq->name.s, kseq->name.l + 1);
     
     // onto the next one!
     N++;
@@ -141,6 +141,11 @@ int compute_distance_matrix(int quiet, int csv, int corner, char* fasta, char* p
   
   print_header(corner, N, sep, name, program_name);
   print_body( N, sep, name, seq, L, only_acgt);
+
+  for (int n = 0; n < N; n++) {
+    free(seq[n]);
+    free(name[n]);
+  }
 
   return 0;
 }
