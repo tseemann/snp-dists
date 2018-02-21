@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tseemann/snp-dists.svg?branch=master)](https://travis-ci.org/tseemann/snp-dists)
+
 # snpdist
 
 Convert a FASTA alignment to SNP distance matrix
@@ -70,7 +72,7 @@ directories), where your files are assumed to be stored in
 `/home/ubuntu/data`:
 
 ```
-docker run --rm -it -v /home/ubuntu/data:/data tseemann/snpdists tseemann/snpdists 
+docker run --rm -it -v /home/ubuntu/data:/data tseemann/snpdists tseemann/snpdists
 ```
 
 ## Debian/Ubuntu
@@ -86,7 +88,7 @@ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 ## RHEL/Centos
 To install on a modern RHEL or Centos based system, run the commands below as root:
 ```
-yum groupinstall 'Development Tools' 
+yum groupinstall 'Development Tools'
 yum install git check
 git clone https://github.com/tseemann/snp-dists.git
 cd snp-dists && autoreconf -i -f && ./configure && make && make install
@@ -155,4 +157,3 @@ File problems here: https://github.com/tseemann/snp-dists/issues
 
 * Torsten Seemann
 * Andrew J Page
-
