@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tseemann/snp-dists.svg?branch=master)](https://travis-ci.org/tseemann/snp-dists) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [](#lang-au)
+
 # snpdist
 
 Convert a FASTA alignment to SNP distance matrix
@@ -31,7 +33,9 @@ seq4            3       4       4       0
 
 # Installation
 
-`snp-dists` is written in C to the C99 standard and only depends on `libz`.
+`snp-dists` is written in C to the C99 standard and only depends on `zlib`.
+
+## Source
 
 ```bash
 git clone https://github.com/tseemann/snp-dists.git
@@ -39,6 +43,16 @@ cd snp-dists/src
 make
 # optionally install to /usr/local/bin 
 make PREFIX=/usr/local install  
+```
+
+### Homebrew
+```
+brew install brewsci/bio/snp-dists
+```
+
+### Bioconda
+```
+conda install -c bioconda -c conda-forge snp-dists
 ```
 
 # Options
@@ -94,12 +108,14 @@ seq4    3       4       4       0
 
 # Issues
 
-File problems here: https://github.com/tseemann/snp-dists/issues
+Report bugs and give suggesions on the
+[Issues page](https://github.com/tseemann/snp-dists/issues)
 
 # Licence
 
-GPLv3
+[GPL Version 3](https://raw.githubusercontent.com/tseemann/snp-dists/master/LICENSE)
 
 # Author
 
-Torsten Seemann
+[Torsten Seemann](https://tseemann.github.io)
+
