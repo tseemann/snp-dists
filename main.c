@@ -39,7 +39,8 @@ void show_help(int retcode)
   fprintf(out, "  -h\tShow this help\n");
   fprintf(out, "  -v\tPrint version and exit\n");
   fprintf(out, "  -q\tQuiet mode; do not print progress information\n");
-  fprintf(out, "  -a\tCount all diffs (inc. gaps) not just [AGTC]\n");
+  fprintf(out, "  -a\tCount all differences not just [AGTC]\n");
+  fprintf(out, "  -k\tKeep case, don't uppercase all letters\n");
   fprintf(out, "  -c\tOutput CSV instead of TSV\n");
   fprintf(out, "  -b\tBlank top left corner cell instead of '%s %s'\n", EXENAME, VERSION);
   fprintf(out, "URL\n  %s (%s)\n", GITHUB_URL, AUTHOR);
@@ -53,13 +54,14 @@ void show_help(int retcode)
 int main(int argc, char *argv[])
 {
   // parse command line parameters
-  int opt, quiet=0, csv=0, corner=1, allchars=0;
-  while ((opt = getopt(argc, argv, "hqcabv")) != -1) {
+  int opt, quiet=0, csv=0, corner=1, allchars=0, keepcase=0;
+  while ((opt = getopt(argc, argv, "hqcakbv")) != -1) {
     switch (opt) {
       case 'h': show_help(EXIT_SUCCESS); break;
       case 'q': quiet=1; break;
       case 'c': csv=1; break;
       case 'a': allchars=1; break;
+      case 'k': keepcase=1; break;
       case 'b': corner=0; break;
       case 'v': printf("%s %s\n", EXENAME, VERSION); exit(EXIT_SUCCESS);
       default : show_help(EXIT_FAILURE);
@@ -109,7 +111,14 @@ int main(int argc, char *argv[])
     strcpy(seq[N], kseq->seq.s);
     name[N] = (char*) calloc(kseq->name.l + 1, sizeof(char));
     strcpy(name[N], kseq->name.s);
-    
+
+    // uppercase all sequences
+    if (! keepcase) {
+      for (char* s = seq[N]; *s; s++) {
+        *s = toupper(*s);
+      }
+    }    
+
     // clean the sequence depending on -a option
     if (!allchars) {
       for (char* s = seq[N]; *s; s++) {

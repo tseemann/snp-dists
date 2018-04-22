@@ -25,9 +25,11 @@ clean:
 
 check:
 	./$(EXE) -v
+	./$(EXE) /dev/null || true
 	./$(EXE) -b $(TESTDIR)/singleton.aln
 	./$(EXE) -b $(TESTDIR)/good.aln
 	./$(EXE) -b $(TESTDIR)/gzip.aln.gz
+	./$(EXE) -b -k $(TESTDIR)/lowercase.aln
 	./$(EXE) -b    $(TESTDIR)/lowercase.aln
 	./$(EXE) -b -c -q $(TESTDIR)/good.aln
 	./$(EXE) -b -a $(TESTDIR)/ambig.aln
