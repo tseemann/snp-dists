@@ -63,7 +63,7 @@ conda install -c bioconda -c conda-forge snp-dists
 SYNOPSIS
   Pairwise SNP distance matrix from a FASTA alignment
 USAGE
-  snp-dists [options] alignment.fasta > matrix.tsv
+  snp-dists [options] alignment.fasta[.gz] > matrix.tsv
 OPTIONS
   -h    Show this help
   -v    Print version and exit

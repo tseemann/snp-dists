@@ -9,7 +9,7 @@
 #define EXENAME "snp-dists"
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
 #define AUTHOR "Torsten Seemann"
-#define VERSION "0.2"
+#define VERSION "0.3"
 #define MAX_SEQ 100000
 
 KSEQ_INIT(gzFile, gzread)
@@ -31,7 +31,7 @@ void show_help(int retcode)
 {
   FILE* out = (retcode == EXIT_SUCCESS ? stdout : stderr);
   fprintf(out, "SYNOPSIS\n  Pairwise SNP distance matrix from a FASTA alignment\n");
-  fprintf(out, "USAGE\n  %s [options] alignment.fasta > matrix.tsv\n", EXENAME);
+  fprintf(out, "USAGE\n  %s [options] alignment.fasta[.gz] > matrix.tsv\n", EXENAME);
   fprintf(out, "OPTIONS\n");
   fprintf(out, "  -h\tShow this help\n");
   fprintf(out, "  -v\tPrint version and exit\n");
