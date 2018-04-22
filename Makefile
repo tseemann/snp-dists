@@ -24,8 +24,12 @@ clean:
 	$(RM) *~ *.o $(EXE)
 
 check:
-	./$(EXE) $(TESTDIR)/singleton.aln
-	./$(EXE) $(TESTDIR)/good.aln
-	./$(EXE) $(TESTDIR)/gzip.aln.gz
-	./$(EXE) -b -c -q $(TESTDIR)/good.aln
 	./$(EXE) -v
+	./$(EXE) -b $(TESTDIR)/singleton.aln
+	./$(EXE) -b $(TESTDIR)/good.aln
+	./$(EXE) -b $(TESTDIR)/gzip.aln.gz
+	./$(EXE) -b    $(TESTDIR)/lowercase.aln
+	./$(EXE) -b -c -q $(TESTDIR)/good.aln
+	./$(EXE) -b -a $(TESTDIR)/ambig.aln
+	./$(EXE) -b    $(TESTDIR)/ambig.aln
+#	./$(EXE) $(TESTDIR)/huge.aln.gz > /dev/null
