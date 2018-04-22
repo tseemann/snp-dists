@@ -10,7 +10,7 @@ TESTDIR = test
 .PHONY: check clean
 .DEFAULT: all
 
-all: $(EXE) check
+all: $(EXE)
 
 $(EXE): main.c 
 	$(CC) $(CFLAGS) -o $(EXE) $^ $(LIBS)
