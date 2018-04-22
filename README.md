@@ -57,7 +57,7 @@ conda install -c bioconda -c conda-forge snp-dists
 
 ## Options
 
-### snp-dists -h (help)
+### `snp-dists -h` (help)
 
 ```
 SYNOPSIS
@@ -68,35 +68,37 @@ OPTIONS
   -h    Show this help
   -v    Print version and exit
   -q    Quiet mode; do not print progress information
+  -a    Count all differences not just [AGTC]
+  -k    Keep case, don't uppercase all letters
   -c    Output CSV instead of TSV
-  -b    Blank top left corner cell instead of 'snp-dists 0.2'
+  -b    Blank top left corner cell instead of 'snp-dists 0.3'
 URL
   https://github.com/tseemann/snp-dists (Torsten Seemann)
 ```
 
-### snp-dists -v (version)
+### `snp-dists -v` (version)
 
 Prints the name and version separated by a space in standard Unix fashion.
 
 ```
-snp-dists 0.2
+snp-dists 0.5
 ```
 
-### snp-dists -q (quiet mode)
+### `snp-dists -q` (quiet mode)
 
 Don't print informational messages, only errors.
 
-### snp-dists -c good.aln (CSV instead of TSV)
+### `snp-dists -c` (CSV instead of TSV)
 
 ```
-snp-dists 0.2,seq1,seq2,seq3,seq4
+snp-dists 0.5,seq1,seq2,seq3,seq4
 seq1,0,1,2,3
 seq2,1,0,3,4
 seq3,2,3,0,4
 seq4,3,4,4,0
 ```
 
-### snp-dists -b good.aln (Omit the toolname/version)
+### `snp-dists -b` (omit the toolname/version)
 
 ```
         seq1    seq2    seq3    seq4
@@ -104,6 +106,37 @@ seq1    0       1       2       3
 seq2    1       0       3       4
 seq3    2       3       0       4
 seq4    3       4       4       0
+```
+
+## Advanced options
+
+By default, all letters are (1) uppercased and (2) ignored if not A,G,T or C.
+
+### `snp-dists -a` (don't just count AGTC)
+
+Normally one would not want to count ambiguous letters and gaps as a "difference"
+but if you desire, you can enable this option.
+
+```
+>seq1
+NGTCAGTC
+>seq2
+AG-CAGTC
+>seq3
+AGTGNGTA
+```
+
+### `snp-dists -k` (don't uppercase any letters)
+
+You may wish to preserve case, as you may wish lower-case characters
+to be masked in the comparison.
+```
+>seq1
+AgTCAgTC
+>seq2
+AggCAgTC
+>seq3
+AgTgAgTA
 ```
 
 ## Issues
@@ -118,4 +151,3 @@ Report bugs and give suggesions on the
 ## Author
 
 [Torsten Seemann](https://tseemann.github.io)
-
