@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
       exit(EXIT_FAILURE);
     }
     // have we exceeded the number of sequences we can handle?
-    if (N > MAX_SEQ) {
+    if (N >= MAX_SEQ) {
       fprintf(stderr, "%s can only handle %d sequences at most. Please change MAX_SEQ and recompile.\n", EXENAME, MAX_SEQ);
       exit(EXIT_FAILURE);
     }
@@ -161,6 +161,10 @@ int main(int argc, char *argv[])
     }
     printf("\n");
   }   
+
+  // free memory
+  free(seq); free(name);
+
   return 0;
 }
 
