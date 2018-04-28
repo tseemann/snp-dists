@@ -6,10 +6,10 @@
 #include <sys/stat.h>
 #include "kseq.h"
 
+#define VERSION "0.6"
 #define EXENAME "snp-dists"
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
 #define AUTHOR "Torsten Seemann"
-#define VERSION "0.5"
 
 const int MAX_SEQ = 100000;
 const char IGNORE_CHAR = '.';
