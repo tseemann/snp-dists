@@ -144,6 +144,12 @@ AgTgAgTA
 Report bugs and give suggesions on the
 [Issues page](https://github.com/tseemann/snp-dists/issues)
 
+## Related software
+
+* [Disty](https://github.com/c2-d2/disty) by @karel-brinda
+* [Panito](https://github.com/sanger-pathogens/panito) by @andrewjpage
+* [pairwise_snp_differences](https://github.com/MDU-PHL/pairwise_snp_differences/blob/master/pairwise_snp_differences.Rmd) by @andergs
+
 ## Licence
 
 [GPL Version 3](https://raw.githubusercontent.com/tseemann/snp-dists/master/LICENSE)
