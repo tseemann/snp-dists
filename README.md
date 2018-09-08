@@ -150,14 +150,16 @@ Report bugs and give suggesions on the
 
 ## Related software
 
-* [Disty](https://github.com/c2-d2/disty) by @karel-brinda
-* [Panito](https://github.com/sanger-pathogens/panito) by @andrewjpage
-* [pairwise_snp_differences](https://github.com/MDU-PHL/pairwise_snp_differences/blob/master/pairwise_snp_differences.Rmd) by @andergs
+* [Disty](https://github.com/c2-d2/disty)
+* [Panito](https://github.com/sanger-pathogens/panito)
+* [pairwise_snp_differences](https://github.com/MDU-PHL/pairwise_snp_differences/blob/master/pairwise_snp_differences.Rmd)
 
 ## Licence
 
 [GPL Version 3](https://raw.githubusercontent.com/tseemann/snp-dists/master/LICENSE)
 
-## Author
+## Authors
 
-[Torsten Seemann](https://tseemann.github.io)
+[Torsten Seemann](https://github.com/tseemann)
+[Fabian Klötzl](https://github.com/kloetzl)
+[Andrew J Page](https://github.com/andrewjpage)
