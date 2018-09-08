@@ -160,6 +160,6 @@ Report bugs and give suggesions on the
 
 ## Authors
 
-[Torsten Seemann](https://github.com/tseemann)
-[Fabian Klötzl](https://github.com/kloetzl)
-[Andrew J Page](https://github.com/andrewjpage)
+* [Torsten Seemann](https://github.com/tseemann)
+* [Fabian Klötzl](https://github.com/kloetzl)
+* [Andrew J Page](https://github.com/andrewjpage)
