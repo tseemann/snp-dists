@@ -35,16 +35,6 @@ seq4            3       4       4       0
 
 `snp-dists` is written in C to the C99 standard and only depends on `zlib`.
 
-### Source
-
-```
-git clone https://github.com/tseemann/snp-dists.git
-cd snp-dists/src
-make
-# optionally install to /usr/local/bin 
-make PREFIX=/usr/local install  
-```
-
 ### Homebrew
 ```
 brew install brewsci/bio/snp-dists
@@ -53,6 +43,20 @@ brew install brewsci/bio/snp-dists
 ### Bioconda
 ```
 conda install -c bioconda -c conda-forge snp-dists
+```
+
+### Source
+
+```
+git clone https://github.com/tseemann/snp-dists.git
+cd snp-dists/src
+make
+
+# run tests
+make check
+
+# optionally install to a specific location (default: /usr/local)
+make PREFIX=/usr/local install
 ```
 
 ## Options
