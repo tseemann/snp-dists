@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 #include "kseq.h"
 
-#define VERSION "0.6.1"
+#define VERSION "0.6.2"
 #define EXENAME "snp-dists"
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
 
@@ -162,6 +162,10 @@ int main(int argc, char *argv[])
   }   
 
   // free memory
+  for (int k=0; k < N; k++) {
+    free(seq[k]);
+    free(name[k]);
+  }
   free(seq); free(name);
 
   return 0;
