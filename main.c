@@ -6,10 +6,9 @@
 #include <sys/stat.h>
 #include "kseq.h"
 
-#define VERSION "0.6"
+#define VERSION "0.6.1"
 #define EXENAME "snp-dists"
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
-#define AUTHOR "Torsten Seemann"
 
 const int MAX_SEQ = 100000;
 const char IGNORE_CHAR = '.';
@@ -43,7 +42,7 @@ void show_help(int retcode)
   fprintf(out, "  -k\tKeep case, don't uppercase all letters\n");
   fprintf(out, "  -c\tOutput CSV instead of TSV\n");
   fprintf(out, "  -b\tBlank top left corner cell instead of '%s %s'\n", EXENAME, VERSION);
-  fprintf(out, "URL\n  %s (%s)\n", GITHUB_URL, AUTHOR);
+  fprintf(out, "URL\n  %s\n", GITHUB_URL);
   exit(retcode);
 }
 
