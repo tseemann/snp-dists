@@ -16,10 +16,10 @@ const char IGNORE_CHAR = '.';
 KSEQ_INIT(gzFile, gzread)
 
 //------------------------------------------------------------------------
-int distance(const char* restrict a, const char* restrict b, const int L)
+size_t distance(const char* restrict a, const char* restrict b, size_t L)
 {
-  int diff = 0;
-  for (int i = 0; i < L; i++) {
+  size_t diff=0;
+  for (size_t i=0; i < L; i++) {
     if (a[i] != b[i] && a[i] != IGNORE_CHAR && b[i] != IGNORE_CHAR) {
       diff++;
     }
@@ -89,9 +89,9 @@ int main(int argc, char* argv[])
   }
 
   // load all the sequences
-  char** seq = (char**)calloc(MAX_SEQ, sizeof(char*));
-  char** name = (char**)calloc(MAX_SEQ, sizeof(char*));
-  int l, N = 0, L = -1;
+  char** seq = calloc(MAX_SEQ, sizeof(char*));
+  char** name = calloc(MAX_SEQ, sizeof(char*));
+  ssize_t l, N=0, L=-1;
   kseq_t* kseq = kseq_init(fp);
 
   while ((l = kseq_read(kseq)) >= 0) {
@@ -165,9 +165,9 @@ int main(int argc, char* argv[])
   // i know)
   for (int j = 0; j < N; j++) {
     printf("%s", name[j]);
-    for (int i = 0; i < N; i++) {
-      int d = distance(seq[j], seq[i], L);
-      printf("%c%d", sep, d);
+    for (int i=0; i < N; i++) {
+      size_t d = distance(seq[j], seq[i], L);
+      printf("%c%zu", sep, d);
     }
     printf("\n");
   }
