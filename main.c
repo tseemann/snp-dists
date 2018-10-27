@@ -102,8 +102,8 @@ int main(int argc, char* argv[])
     // not first sequence - so ensure length matches first one
     if (l != L) {
       fprintf(stderr,
-              "ERROR: sequence #%d '%s' has length %d but expected %d\n", N + 1,
-              kseq->name.s, l, L);
+              "ERROR: sequence #%zu '%s' has length %zu but expected %zu\n",
+              N + 1, kseq->name.s, l, L);
       exit(EXIT_FAILURE);
     }
     // have we exceeded the number of sequences we can handle?
@@ -148,7 +148,7 @@ int main(int argc, char* argv[])
   }
 
   if (!quiet)
-    fprintf(stderr, "Read %d sequences of length %d\n", N, L);
+    fprintf(stderr, "Read %zu sequences of length %zu\n", N, L);
 
   // output TSV or CSV
   char sep = csv ? ',' : '\t';
