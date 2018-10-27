@@ -7,7 +7,7 @@ EXE = snp-dists
 PREFIX = /usr/local
 TESTDIR = test
 
-.PHONY: check clean
+.PHONY: all check clean format
 .DEFAULT: all
 
 all: $(EXE)
@@ -35,3 +35,6 @@ check:
 	./$(EXE) -b -a $(TESTDIR)/ambig.aln
 	./$(EXE) -b    $(TESTDIR)/ambig.aln
 #	./$(EXE) $(TESTDIR)/huge.aln.gz > /dev/null
+
+format:
+	clang-format -i main.c

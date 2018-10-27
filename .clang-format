@@ -1,0 +1,9 @@
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+BasedOnStyle: LLVM
+BreakBeforeBraces: Linux
+IndentCaseLabels: true
+IndentWidth: 2
+PointerAlignment: Left
+TabWidth: 8
