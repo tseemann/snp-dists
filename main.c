@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
     // have we exceeded the number of sequences we can handle?
     if (N >= MAX_SEQ) {
       fprintf(stderr,
-              "%s can only handle %d sequences at most. Please change MAX_SEQ "
+              "ERROR: %s can only handle %d sequences at most. Please change MAX_SEQ "
               "and recompile.\n",
               EXENAME, MAX_SEQ);
       exit(EXIT_FAILURE);
