@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <zlib.h>
 
-#define VERSION "0.6.2"
+#define VERSION "0.6.3"
 #define EXENAME "snp-dists"
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
 
@@ -24,7 +24,6 @@ size_t distance(const char* restrict a, const char* restrict b, size_t L)
       diff++;
     }
   }
-  // fprintf(stderr, "\nA=[%s]\nB=[%s] DIFF=%d\n", a, b, diff);
   return diff;
 }
 
@@ -48,9 +47,6 @@ void show_help(int retcode)
   fprintf(out, str, EXENAME, GITHUB_URL);
   exit(retcode);
 }
-
-//------------------------------------------------------------------------
-// char* strshow_help(int retcode)
 
 //------------------------------------------------------------------------
 int main(int argc, char* argv[])
