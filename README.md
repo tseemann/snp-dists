@@ -52,7 +52,7 @@ conda install -c bioconda -c conda-forge snp-dists
 
 ```
 git clone https://github.com/tseemann/snp-dists.git
-cd snp-dists/src
+cd snp-dists
 make
 
 # run tests
