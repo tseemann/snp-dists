@@ -43,6 +43,7 @@ void show_help(int retcode)
       "  -k\tKeep case, don't uppercase all letters\n"
       "  -c\tOutput CSV instead of TSV\n"
       "  -b\tBlank top left corner cell\n"
+      "  -p\tPhylip formatted output\n"
       "URL\n  %s\n"};
   fprintf(out, str, EXENAME, GITHUB_URL);
   exit(retcode);
@@ -52,8 +53,8 @@ void show_help(int retcode)
 int main(int argc, char* argv[])
 {
   // parse command line parameters
-  int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0;
-  while ((opt = getopt(argc, argv, "hqcakbv")) != -1) {
+  int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0, phylip = 0;
+  while ((opt = getopt(argc, argv, "hqcakbpv")) != -1) {
     switch (opt) {
       case 'h': show_help(EXIT_SUCCESS); break;
       case 'q': quiet = 1; break;
@@ -61,6 +62,7 @@ int main(int argc, char* argv[])
       case 'a': allchars = 1; break;
       case 'k': keepcase = 1; break;
       case 'b': corner = 0; break;
+      case 'p': phylip = 1; break;
       case 'v': printf("%s %s\n", EXENAME, VERSION); exit(EXIT_SUCCESS);
       default: show_help(EXIT_FAILURE);
     }
@@ -150,14 +152,35 @@ int main(int argc, char* argv[])
   char sep = csv ? ',' : '\t';
 
   // header seq
-  if (corner)
+  if (corner && !phylip)
     printf("%s %s", EXENAME, VERSION);
-  for (int j = 0; j < N; j++) {
-    printf("%c%s", sep, name[j]);
+  if (!phylip){
+    for (int j = 0; j < N; j++) {
+      printf("%c%s", sep, name[j]);
+    }
   }
   printf("\n");
 
   // Output the distance matrix to stdout (does full matrix, wasted computation
+  // i know)
+  for (int j = 0; j < N; j++) {
+    printf("%s", name[j]);
+    if (phylip) {
+      for (int i=0; i <=j; i++) {
+        size_t d = distance(seq[j], seq[i], L);
+        printf("%c%zu", sep, d);
+      }
+    }
+    else {
+      for (int i=0; i < N; i++) {
+        size_t d = distance(seq[j], seq[i], L);
+        printf("%c%zu", sep, d);
+      }
+    }
+    printf("\n");
+  }
+  
+    // Output the distance matrix to stdout (does full matrix, wasted computation
   // i know)
   for (int j = 0; j < N; j++) {
     printf("%s", name[j]);
@@ -167,6 +190,7 @@ int main(int argc, char* argv[])
     }
     printf("\n");
   }
+
 
   // free memory
   for (int k = 0; k < N; k++) {
