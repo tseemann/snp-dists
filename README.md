@@ -79,6 +79,7 @@ OPTIONS
   -k    Keep case, don't uppercase all letters
   -c    Output CSV instead of TSV
   -b    Blank top left corner cell instead of 'snp-dists 0.3'
+  -p    Phylip formatted output
 URL
   https://github.com/tseemann/snp-dists (Torsten Seemann)
 ```
@@ -112,6 +113,16 @@ seq4,3,4,4,0
 seq1    0       1       2       3
 seq2    1       0       3       4
 seq3    2       3       0       4
+seq4    3       4       4       0
+```
+
+### `snp-dists -p`
+
+```
+4
+seq1    0
+seq2    1       0
+seq3    2       3       0
 seq4    3       4       4       0
 ```
 
