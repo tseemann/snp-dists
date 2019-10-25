@@ -159,6 +159,9 @@ int main(int argc, char* argv[])
       printf("%c%s", sep, name[j]);
     }
   }
+  if (phylip){
+    printf("%zu", N);
+  }
   printf("\n");
 
   // Output the distance matrix to stdout (does full matrix, wasted computation
@@ -176,17 +179,6 @@ int main(int argc, char* argv[])
         size_t d = distance(seq[j], seq[i], L);
         printf("%c%zu", sep, d);
       }
-    }
-    printf("\n");
-  }
-  
-    // Output the distance matrix to stdout (does full matrix, wasted computation
-  // i know)
-  for (int j = 0; j < N; j++) {
-    printf("%s", name[j]);
-    for (int i=0; i < N; i++) {
-      size_t d = distance(seq[j], seq[i], L);
-      printf("%c%zu", sep, d);
     }
     printf("\n");
   }
