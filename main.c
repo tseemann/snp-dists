@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <zlib.h>
 
-#define VERSION "0.6.3"
+#define VERSION "0.7.0"
 #define EXENAME "snp-dists"
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
 
