@@ -41,7 +41,8 @@ void show_help(int retcode)
       "  -q\tQuiet mode; do not print progress information\n"
       "  -a\tCount all differences not just [AGTC]\n"
       "  -k\tKeep case, don't uppercase all letters\n"
-      "  -c\tOutput CSV instead of TSV\n"
+      "  -m\tOutput MOLTEN instead of TSV\n"
+      "  -c\tUse comma instead of tab in output\n"
       "  -b\tBlank top left corner cell\n"
       "URL\n  %s\n"};
   fprintf(out, str, EXENAME, GITHUB_URL);
@@ -52,14 +53,15 @@ void show_help(int retcode)
 int main(int argc, char* argv[])
 {
   // parse command line parameters
-  int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0;
-  while ((opt = getopt(argc, argv, "hqcakbv")) != -1) {
+  int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0, molten = 0;
+  while ((opt = getopt(argc, argv, "hqcakmbv")) != -1) {
     switch (opt) {
       case 'h': show_help(EXIT_SUCCESS); break;
       case 'q': quiet = 1; break;
       case 'c': csv = 1; break;
       case 'a': allchars = 1; break;
       case 'k': keepcase = 1; break;
+      case 'm': molten = 1; break;
       case 'b': corner = 0; break;
       case 'v': printf("%s %s\n", EXENAME, VERSION); exit(EXIT_SUCCESS);
       default: show_help(EXIT_FAILURE);
@@ -149,23 +151,36 @@ int main(int argc, char* argv[])
   // output TSV or CSV
   char sep = csv ? ',' : '\t';
 
-  // header seq
-  if (corner)
-    printf("%s %s", EXENAME, VERSION);
-  for (int j = 0; j < N; j++) {
-    printf("%c%s", sep, name[j]);
+  if (molten) {
+    // "molten" format, one row per pair
+    for (int j = 0; j < N; j++) {
+      for (int i=0; i < N; i++) {
+        size_t d = distance(seq[j], seq[i], L);
+        printf("%s%c%s%c%zu\n", name[j], sep, name[i], sep, d);
+      }
+    }
   }
-  printf("\n");
+  else {
+    // regular TSV matrix output
 
-  // Output the distance matrix to stdout (does full matrix, wasted computation
-  // i know)
-  for (int j = 0; j < N; j++) {
-    printf("%s", name[j]);
-    for (int i=0; i < N; i++) {
-      size_t d = distance(seq[j], seq[i], L);
-      printf("%c%zu", sep, d);
+    // header seq
+    if (corner)
+      printf("%s %s", EXENAME, VERSION);
+    for (int j = 0; j < N; j++) {
+      printf("%c%s", sep, name[j]);
     }
     printf("\n");
+
+    // Output the distance matrix to stdout
+    // (does full matrix, wasted computation i know)
+    for (int j = 0; j < N; j++) {
+      printf("%s", name[j]);
+      for (int i=0; i < N; i++) {
+        size_t d = distance(seq[j], seq[i], L);
+        printf("%c%zu", sep, d);
+      }
+      printf("\n");
+    }
   }
 
   // free memory

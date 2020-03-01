@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/tseemann/snp-dists.svg?branch=master)](https://travis-ci.org/tseemann/snp-dists)
 [![License: GPLv3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Language: C99](https://img.shields.io/badge/Language-C99-orangered.svg)](https://en.wikipedia.org/wiki/C99)
-![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.1411986.svg)
+<!-- ![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.1411986.svg) -->
 
 # snp-dists
 
@@ -27,7 +27,7 @@ Read 4 sequences of length 8
 
 % cat distances.tab
 
-snp-dists 0.2   seq1    seq2    seq3    seq4
+snp-dists 0.7   seq1    seq2    seq3    seq4
 seq1            0       1       2       3
 seq2            1       0       3       4
 seq3            2       3       0       4
@@ -77,10 +77,11 @@ OPTIONS
   -q    Quiet mode; do not print progress information
   -a    Count all differences not just [AGTC]
   -k    Keep case, don't uppercase all letters
-  -c    Output CSV instead of TSV
-  -b    Blank top left corner cell instead of 'snp-dists 0.3'
+  -m    Output MOLTEN instead of TSV
+  -c    Use comma instead of tab in output
+  -b    Blank top left corner cell
 URL
-  https://github.com/tseemann/snp-dists (Torsten Seemann)
+  https://github.com/tseemann/snp-dists
 ```
 
 ### `snp-dists -v` (version)
@@ -88,7 +89,7 @@ URL
 Prints the name and version separated by a space in standard Unix fashion.
 
 ```
-snp-dists 0.5
+snp-dists 0.7.0
 ```
 
 ### `snp-dists -q` (quiet mode)
@@ -98,7 +99,7 @@ Don't print informational messages, only errors.
 ### `snp-dists -c` (CSV instead of TSV)
 
 ```
-snp-dists 0.5,seq1,seq2,seq3,seq4
+snp-dists 0.7.0,seq1,seq2,seq3,seq4
 seq1,0,1,2,3
 seq2,1,0,3,4
 seq3,2,3,0,4
@@ -114,6 +115,7 @@ seq2    1       0       3       4
 seq3    2       3       0       4
 seq4    3       4       4       0
 ```
+
 
 ## Advanced options
 
@@ -144,6 +146,26 @@ AgTCAgTC
 AggCAgTC
 >seq3
 AgTgAgTA
+```
+
+### `snp-dists -m` ("molten" output format)
+```
+seq1    seq1    0
+seq1    seq2    1
+seq1    seq3    2
+seq1    seq4    3
+seq2    seq1    1
+seq2    seq2    0
+seq2    seq3    3
+seq2    seq4    4
+seq3    seq1    2
+seq3    seq2    3
+seq3    seq3    0
+seq3    seq4    4
+seq4    seq1    3
+seq4    seq2    4
+seq4    seq3    4
+seq4    seq4    0
 ```
 
 ## Issues

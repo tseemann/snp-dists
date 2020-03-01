@@ -15,8 +15,6 @@ all: $(EXE)
 $(EXE): main.c kseq.h
 	$(CC) $(CFLAGS) -o $(EXE) $^ $(LIBS)
 
-main.c: kseq.h
-
 install: $(EXE)
 	install -v -t $(PREFIX)/bin $(EXE)
 
@@ -33,6 +31,7 @@ check: $(EXE)
 	./$(EXE) -qb    $(TESTDIR)/lowercase.aln | diff -bB - $(TESTDIR)/lowercase.res
 	./$(EXE) -qb -c -q $(TESTDIR)/good.aln | diff -bB - $(TESTDIR)/good-c.res
 	./$(EXE) -qb -a $(TESTDIR)/ambig.aln | diff -bB - $(TESTDIR)/ambig-a.res
+	./$(EXE) -qbcm $(TESTDIR)/good.aln | diff -bB - $(TESTDIR)/good-c-m.res
 	./$(EXE) -qb    $(TESTDIR)/ambig.aln | diff -bB - $(TESTDIR)/ambig.res
 #	./$(EXE) $(TESTDIR)/huge.aln.gz > /dev/null
 
