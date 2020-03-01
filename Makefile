@@ -1,6 +1,6 @@
 
 CC = gcc
-CFLAGS = -Wall -Wextra -O3 -std=c99 
+CFLAGS = -Wall -Wextra -Ofast -std=c99 
 LIBS = -lz -lm
 
 EXE = snp-dists
@@ -12,7 +12,7 @@ TESTDIR = test
 
 all: $(EXE)
 
-$(EXE): main.c 
+$(EXE): main.c kseq.h
 	$(CC) $(CFLAGS) -o $(EXE) $^ $(LIBS)
 
 main.c: kseq.h
