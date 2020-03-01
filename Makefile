@@ -13,7 +13,7 @@ TESTDIR = test
 all: $(EXE)
 
 $(EXE): main.c kseq.h
-	$(CC) $(CFLAGS) -o $(EXE) $^ $(LIBS)
+	$(CC) $(CFLAGS) -o $(EXE) $< $(LIBS)
 
 install: $(EXE)
 	install -v -t $(PREFIX)/bin $(EXE)
