@@ -150,6 +150,7 @@ int main(int argc, char* argv[])
 
   // output TSV or CSV
   char sep = csv ? ',' : '\t';
+  size_t *d = malloc(N * sizeof(size_t));
 
   if (molten) {
     // "molten" format, one row per pair
@@ -175,13 +176,17 @@ int main(int argc, char* argv[])
     // (does full matrix, wasted computation i know)
     for (int j = 0; j < N; j++) {
       printf("%s", name[j]);
+#pragma omp parallel for
       for (int i=0; i < N; i++) {
-        size_t d = distance(seq[j], seq[i], L);
-        printf("%c%zu", sep, d);
+        d[i] = distance(seq[j], seq[i], L);
+      }
+      for (int i=0; i < N; i++) {
+        printf("%c%zu", sep, d[i]);
       }
       printf("\n");
     }
   }
+  free(d);
 
   // free memory
   for (int k = 0; k < N; k++) {

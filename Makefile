@@ -1,6 +1,6 @@
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Ofast -std=c99 
+CFLAGS = -Wall -Wextra -Ofast -std=c99 -fopenmp
 LIBS = -lz -lm
 
 EXE = snp-dists
