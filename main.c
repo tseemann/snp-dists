@@ -7,7 +7,7 @@
 #include <zlib.h>
 #include <omp.h>
 
-#define VERSION "0.8.1"
+#define VERSION "0.8.2"
 #define EXENAME "snp-dists"
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
 
@@ -165,6 +165,7 @@ int main(int argc, char* argv[])
   if (molten) {
     // "molten" format, one row per pair
     for (int j = 0; j < N; j++) {
+#pragma omp parallel for
       for (int i=0; i < N; i++) {
         size_t d = distance(seq[j], seq[i], L);
         printf("%s%c%s%c%zu\n", name[j], sep, name[i], sep, d);
