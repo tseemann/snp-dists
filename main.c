@@ -5,13 +5,16 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <zlib.h>
+#include <omp.h>
 
-#define VERSION "0.7.0"
+#define VERSION "0.8.1"
 #define EXENAME "snp-dists"
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
 
 const int MAX_SEQ = 100000;
 const char IGNORE_CHAR = '.';
+
+int cpus = 1;
 
 KSEQ_INIT(gzFile, gzread)
 
@@ -34,18 +37,19 @@ void show_help(int retcode)
 
   static const char str[] = {
       "SYNOPSIS\n  Pairwise SNP distance matrix from a FASTA alignment\n"
-      "USAGE\n  %s [options] alignment.fasta[.gz] > matrix.tsv\n"
+      "USAGE\n  %s [opts] aligned.fasta[.gz] > matrix.tsv\n"
       "OPTIONS\n"
-      "  -h\tShow this help\n"
-      "  -v\tPrint version and exit\n"
-      "  -q\tQuiet mode; do not print progress information\n"
-      "  -a\tCount all differences not just [AGTC]\n"
-      "  -k\tKeep case, don't uppercase all letters\n"
-      "  -m\tOutput MOLTEN instead of TSV\n"
-      "  -c\tUse comma instead of tab in output\n"
-      "  -b\tBlank top left corner cell\n"
+      "  -h       Show this help\n"
+      "  -v       Print version and exit\n"
+      "  -j CPUS  Threads to use [%d]\n"
+      "  -q       Quiet mode; no progress messages\n"
+      "  -a       Count all differences not just [AGTC]\n"
+      "  -k       Keep case, don't uppercase all letters\n"
+      "  -m       Output MOLTEN instead of TSV\n"
+      "  -c       Use comma instead of tab in output\n"
+      "  -b       Blank top left corner cell\n"
       "URL\n  %s\n"};
-  fprintf(out, str, EXENAME, GITHUB_URL);
+  fprintf(out, str, EXENAME, cpus, GITHUB_URL);
   exit(retcode);
 }
 
@@ -54,9 +58,10 @@ int main(int argc, char* argv[])
 {
   // parse command line parameters
   int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0, molten = 0;
-  while ((opt = getopt(argc, argv, "hqcakmbv")) != -1) {
+  while ((opt = getopt(argc, argv, "hj:qcakmbv")) != -1) {
     switch (opt) {
       case 'h': show_help(EXIT_SUCCESS); break;
+      case 'j': cpus = atoi(optarg); break;
       case 'q': quiet = 1; break;
       case 'c': csv = 1; break;
       case 'a': allchars = 1; break;
@@ -78,6 +83,11 @@ int main(int argc, char* argv[])
   // say hello
   if (!quiet)
     fprintf(stderr, "This is %s %s\n", EXENAME, VERSION);
+
+  // override $OMP_NUM_THREADS
+  if (!quiet) 
+    fprintf(stderr, "Will use %d threads.\n", cpus);
+  omp_set_num_threads(cpus);
 
   // open filename via libz
   gzFile fp = gzopen(fasta, "r");
