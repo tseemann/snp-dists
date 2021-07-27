@@ -48,6 +48,23 @@ brew install brewsci/bio/snp-dists
 conda install -c bioconda -c conda-forge snp-dists
 ```
 
+### Containers
+
+Docker images are available on
+[dockerhub](https://hub.docker.com/r/staphb/snp-dists) and [quay.io](https://quay.io/repository/staphb/snp-dists).
+These are maintained by the StaPH-B workgroup. [Dockerfiles can be found here.](https://github.com/StaPH-B/docker-builds)
+
+```
+# Docker
+docker pull staphb/snp-dists:latest
+docker run staphb/snp-dists:latest snp-dists -h
+
+# Singularity
+singularity build snp-dists.sif docker://staphb/snp-dists:latest
+singularity exec snp-dists.sif snp-dists -h
+```
+
+
 ### Source
 
 ```
