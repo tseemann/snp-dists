@@ -58,7 +58,7 @@ void show_help(int retcode)
 int main(int argc, char* argv[])
 {
   // parse command line parameters
-    int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0, moltenheader = 0, molten = 0;
+  int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0, moltenheader = 0, molten = 0;
   while ((opt = getopt(argc, argv, "hj:qcakmbtv")) != -1) {
     switch (opt) {
       case 'h': show_help(EXIT_SUCCESS); break;
@@ -167,7 +167,7 @@ int main(int argc, char* argv[])
   if (molten) {
     // "molten" format, one row per pair
     if (moltenheader) {
-       printf("sequence_1%csequence_2%cdistance\n", sep, sep);
+      printf("sequence_1%csequence_2%cdistance\n", sep, sep);
     }
     for (int j = 0; j < N; j++) {
 #pragma omp parallel for
