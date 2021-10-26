@@ -70,16 +70,18 @@ make PREFIX=/usr/local install
 SYNOPSIS
   Pairwise SNP distance matrix from a FASTA alignment
 USAGE
-  snp-dists [options] alignment.fasta[.gz] > matrix.tsv
+  snp-dists [opts] aligned.fasta[.gz] > matrix.tsv
 OPTIONS
-  -h    Show this help
-  -v    Print version and exit
-  -q    Quiet mode; do not print progress information
-  -a    Count all differences not just [AGTC]
-  -k    Keep case, don't uppercase all letters
-  -m    Output MOLTEN instead of TSV
-  -c    Use comma instead of tab in output
-  -b    Blank top left corner cell
+  -h       Show this help
+  -v       Print version and exit
+  -j CPUS  Threads to use [1]
+  -q       Quiet mode; no progress messages
+  -a       Count all differences not just [AGTC]
+  -k       Keep case, don't uppercase all letters
+  -m       Output MOLTEN instead of TSV
+  -c       Use comma instead of tab in output
+  -b       Blank top left corner cell
+  -t       Add column headers when using molten format
 URL
   https://github.com/tseemann/snp-dists
 ```
@@ -166,6 +168,26 @@ seq4    seq1    3
 seq4    seq2    4
 seq4    seq3    4
 seq4    seq4    0
+```
+### `snp-dists -m -t ` ("molten" output format with column headers; requires -m "molten" format enabled)
+```
+sequence_1  sequence_2  distance
+seq1        seq1        0
+seq1        seq2        1
+seq1        seq3        2
+seq1        seq4        3
+seq2        seq1        1
+seq2        seq2        0
+seq2        seq3        3
+seq2        seq4        4
+seq3        seq1        2
+seq3        seq2        3
+seq3        seq3        0
+seq3        seq4        4
+seq4        seq1        3
+seq4        seq2        4
+seq4        seq3        4
+seq4        seq4        0
 ```
 
 ## Issues
