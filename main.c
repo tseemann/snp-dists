@@ -19,12 +19,13 @@ int cpus = 1;
 KSEQ_INIT(gzFile, gzread)
 
 //------------------------------------------------------------------------
-size_t distance(const char* restrict a, const char* restrict b, size_t L)
+size_t distance(const char* restrict a, const char* restrict b, size_t L, size_t maxdiff)
 {
   size_t diff=0;
   for (size_t i=0; i < L; i++) {
     if (a[i] != b[i] && a[i] != IGNORE_CHAR && b[i] != IGNORE_CHAR) {
       diff++;
+      if (diff >= maxdiff) return maxdiff;
     }
   }
   return diff;
@@ -48,6 +49,7 @@ void show_help(int retcode)
       "  -m       Output MOLTEN instead of TSV\n"
       "  -c       Use comma instead of tab in output\n"
       "  -b       Blank top left corner cell\n"
+      "  -x       Stop calculating beyond this distance [9999999]\n"
       "URL\n  %s\n"};
   fprintf(out, str, EXENAME, cpus, GITHUB_URL);
   exit(retcode);
@@ -57,8 +59,8 @@ void show_help(int retcode)
 int main(int argc, char* argv[])
 {
   // parse command line parameters
-  int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0, molten = 0;
-  while ((opt = getopt(argc, argv, "hj:qcakmbv")) != -1) {
+  int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0, molten = 0, maxdiff = 9999999;
+  while ((opt = getopt(argc, argv, "hj:qcakmbx:v")) != -1) {
     switch (opt) {
       case 'h': show_help(EXIT_SUCCESS); break;
       case 'j': cpus = atoi(optarg); break;
@@ -68,6 +70,7 @@ int main(int argc, char* argv[])
       case 'k': keepcase = 1; break;
       case 'm': molten = 1; break;
       case 'b': corner = 0; break;
+      case 'x': maxdiff = atoi(optarg); break;
       case 'v': printf("%s %s\n", EXENAME, VERSION); exit(EXIT_SUCCESS);
       default: show_help(EXIT_FAILURE);
     }
@@ -167,7 +170,7 @@ int main(int argc, char* argv[])
     for (int j = 0; j < N; j++) {
 #pragma omp parallel for
       for (int i=0; i < N; i++) {
-        size_t d = distance(seq[j], seq[i], L);
+        size_t d = distance(seq[j], seq[i], L, maxdiff);
         printf("%s%c%s%c%zu\n", name[j], sep, name[i], sep, d);
       }
     }
@@ -189,7 +192,7 @@ int main(int argc, char* argv[])
       printf("%s", name[j]);
 #pragma omp parallel for
       for (int i=0; i < N; i++) {
-        d[i] = distance(seq[j], seq[i], L);
+        d[i] = distance(seq[j], seq[i], L, maxdiff);
       }
       for (int i=0; i < N; i++) {
         printf("%c%zu", sep, d[i]);
