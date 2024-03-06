@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
       case 'k': keepcase = 1; break;
       case 'm': molten = 1; break;
       case 'b': corner = 0; break;
-      case 'x': maxdiff = atoi(optarg); break;
+      case 'x': maxdiff = atol(optarg); break;
       case 'v': printf("%s %s\n", EXENAME, VERSION); exit(EXIT_SUCCESS);
       default: show_help(EXIT_FAILURE);
     }
