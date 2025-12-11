@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/tseemann/snp-dists.svg?branch=master)](https://travis-ci.org/tseemann/snp-dists)
+[![CI](https://github.com/tseemann/snp-dists/actions/workflows/ci.yml/badge.svg)](https://github.com/tseemann/snp-dists/actions/workflows/ci.yml)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/tseemann/snp-dists)](https://github.com/tseemann/snp-dists/releases)
 [![Bioconda downloads](https://img.shields.io/conda/dn/bioconda/snp-dists)](https://bioconda.github.io/recipes/snp-dists/README.html)
 [![License: GPLv3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
