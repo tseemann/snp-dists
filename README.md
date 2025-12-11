@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/tseemann/snp-dists.svg?branch=master)](https://travis-ci.org/tseemann/snp-dists)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/tseemann/snp-dists)](https://github.com/tseemann/snp-dists/releases)
+[![Bioconda downloads](https://img.shields.io/conda/dn/bioconda/snp-dists)](https://bioconda.github.io/recipes/snp-dists/README.html)
 [![License: GPLv3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Language: C99](https://img.shields.io/badge/Language-C99-orangered.svg)](https://en.wikipedia.org/wiki/C99)
 <!-- ![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.1411986.svg) -->
