@@ -49,6 +49,7 @@ void show_help(int retcode)
       "  -m       Output MOLTEN instead of TSV\n"
       "  -c       Use comma instead of tab in output\n"
       "  -b       Blank top left corner cell\n"
+      "  -t       Add column headers when using molten format\n"
       "  -x INT   Stop counting distance beyond this [99999]\n"
       "URL\n  %s\n"};
   fprintf(out, str, EXENAME, cpus, GITHUB_URL);
@@ -59,6 +60,8 @@ void show_help(int retcode)
 int main(int argc, char* argv[])
 {
   // parse command line parameters
+  int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0, moltenheader = 0, molten = 0;
+  while ((opt = getopt(argc, argv, "hj:qcakmbtv")) != -1) {
   int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0, molten = 0, maxdiff = 9999999;
   while ((opt = getopt(argc, argv, "hj:qcakmbx:v")) != -1) {
     switch (opt) {
@@ -69,6 +72,7 @@ int main(int argc, char* argv[])
       case 'a': allchars = 1; break;
       case 'k': keepcase = 1; break;
       case 'm': molten = 1; break;
+      case 't': moltenheader = 1; break;
       case 'b': corner = 0; break;
       case 'x': maxdiff = atol(optarg); break;
       case 'v': printf("%s %s\n", EXENAME, VERSION); exit(EXIT_SUCCESS);
@@ -167,6 +171,9 @@ int main(int argc, char* argv[])
 
   if (molten) {
     // "molten" format, one row per pair
+    if (moltenheader) {
+      printf("sequence_1%csequence_2%cdistance\n", sep, sep);
+    }
     for (int j = 0; j < N; j++) {
 #pragma omp parallel for
       for (int i=0; i < N; i++) {

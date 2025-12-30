@@ -93,6 +93,7 @@ OPTIONS
   -m       Output MOLTEN instead of TSV
   -c       Use comma instead of tab in output
   -b       Blank top left corner cell
+  -t       Add column headers when using molten format
   -x INT   Stop counting distance beyond this [99999]
 URL
   https://github.com/tseemann/snp-dists
@@ -180,6 +181,14 @@ seq4    seq1    3
 seq4    seq2    4
 seq4    seq3    4
 seq4    seq4    0
+```
+### `snp-dists -m -t ` ("molten" output format with column headers; requires -m "molten" format enabled)
+```
+sequence_1  sequence_2  distance
+seq1        seq1        0
+seq1        seq2        1
+seq1        seq3        2
+<snip>
 ```
 ### `snp-dists -x INT` (stop counting after `INT` SNPs
 
