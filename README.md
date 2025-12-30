@@ -64,19 +64,19 @@ make install
 ### `snp-dists -h` (help)
 
 ```
-SYNOPSIS
-  Pairwise SNP distance matrix from a FASTA alignment
 USAGE
-  snp-dists [options] alignment.fasta[.gz] > matrix.tsv
+  snp-dists [opts] aligned.fasta[.gz] > matrix.tsv
 OPTIONS
-  -h    Show this help
-  -v    Print version and exit
-  -q    Quiet mode; do not print progress information
-  -a    Count all differences not just [AGTC]
-  -k    Keep case, don't uppercase all letters
-  -m    Output MOLTEN instead of TSV
-  -c    Use comma instead of tab in output
-  -b    Blank top left corner cell
+  -h       Show this help
+  -v       Print version and exit
+  -j CPUS  Threads to use [1]
+  -q       Quiet mode; no progress messages
+  -a       Count all differences not just [AGTC]
+  -k       Keep case, don't uppercase all letters
+  -m       Output MOLTEN instead of TSV
+  -c       Use comma instead of tab in output
+  -b       Blank top left corner cell
+  -x INT   Stop counting distance beyond this [99999]
 URL
   https://github.com/tseemann/snp-dists
 ```
@@ -86,7 +86,7 @@ URL
 Prints the name and version separated by a space in standard Unix fashion.
 
 ```
-snp-dists 0.7.0
+snp-dists 0.9.0
 ```
 
 ### `snp-dists -q` (quiet mode)
@@ -164,6 +164,14 @@ seq4    seq2    4
 seq4    seq3    4
 seq4    seq4    0
 ```
+### `snp-dists -x INT` (stop counting after `INT` SNPs
+
+Once a distance between two samples becomes
+very large there is often not much point 
+keeping on counting. Th` -x` option allows you
+to "short-circuit" the counting. This can reduce
+computation time significantly on large
+alignment is you only care about small distance.
 
 ## Issues
 

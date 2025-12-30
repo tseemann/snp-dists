@@ -7,7 +7,7 @@
 #include <zlib.h>
 #include <omp.h>
 
-#define VERSION "0.8.3"
+#define VERSION "0.9.0"
 #define EXENAME "snp-dists"
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
 
@@ -49,7 +49,7 @@ void show_help(int retcode)
       "  -m       Output MOLTEN instead of TSV\n"
       "  -c       Use comma instead of tab in output\n"
       "  -b       Blank top left corner cell\n"
-      "  -x       Stop calculating beyond this distance [9999999]\n"
+      "  -x INT   Stop counting distance beyond this [99999]\n"
       "URL\n  %s\n"};
   fprintf(out, str, EXENAME, cpus, GITHUB_URL);
   exit(retcode);
