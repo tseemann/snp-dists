@@ -44,11 +44,19 @@ setup() {
 @test "Good" {
   run bats_pipe -0 $exe good.aln \| $compare - good.res
 }
-@test "Good -c" {
+@test "Good CSV -c" {
   run bats_pipe -0 $exe -c good.aln \| $compare - good-c.res
 }
-@test "Good -c -m" {
+@test "Good CSV -c MOLTEN -c" {
   run bats_pipe -0 $exe -c -m good.aln \| $compare - good-c-m.res
+}
+@test "MOLTEN with header -t" {
+  run -0 $exe -m -t -c good.aln
+  [[ "${lines[0]}" =~ ",distance" ]]
+}
+@test "Maxdist -x 1" {
+  run -0 $exe -bcx 1 good.aln
+  [[ "${lines[4]}" =~ "seq4,1,1,1,0" ]]
 }
 @test "Gzipped" {
   run bats_pipe -0 $exe gzip.aln.gz \| $compare - gzip.res
@@ -69,12 +77,15 @@ setup() {
   run bats_pipe -0 $exe -c -m ambig.aln \| $compare - ambig-c-m.res
 }
 
-@test "Huge" {
+@test "Huge 50 seq x 5,000,000 sites" {
   run -0 $bin -c huge.afa.gz
   [[ "${lines[3]}" =~ "seq3," ]]
 }
-@test "Multi-threading" {
+@test "Huge + threading" {
   run -0 $bin -c -j $cpus huge.afa.gz
   [[ "${lines[3]}" =~ "seq3," ]]
 }
-
+@test "Huge + threading + maxdiff 20 " {
+  run -0 $bin -c -j $cpus -x 20 huge.afa.gz
+  [[ "${lines[3]}" =~ "seq3," ]]
+}

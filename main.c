@@ -7,7 +7,7 @@
 #include <zlib.h>
 #include <omp.h>
 
-#define VERSION "0.9.0"
+#define VERSION "1.0.0"
 #define EXENAME "snp-dists"
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
 
@@ -47,11 +47,12 @@ void show_help(int retcode)
       "  -a       Count all differences not just [AGTC]\n"
       "  -k       Keep case, don't uppercase all letters\n"
       "  -m       Output MOLTEN instead of TSV\n"
+      "  -t       Add header to MOLTEN output\n"
       "  -c       Use comma instead of tab in output\n"
       "  -b       Blank top left corner cell\n"
-      "  -t       Add column headers when using molten format\n"
       "  -x INT   Stop counting distance beyond this [99999]\n"
-      "URL\n  %s\n"};
+      "URL\n  %s\n"
+  };
   fprintf(out, str, EXENAME, cpus, GITHUB_URL);
   exit(retcode);
 }
@@ -60,10 +61,10 @@ void show_help(int retcode)
 int main(int argc, char* argv[])
 {
   // parse command line parameters
-  int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0, moltenheader = 0, molten = 0;
-  while ((opt = getopt(argc, argv, "hj:qcakmbtv")) != -1) {
-  int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0, molten = 0, maxdiff = 9999999;
-  while ((opt = getopt(argc, argv, "hj:qcakmbx:v")) != -1) {
+  int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0;
+  int  moltenheader = 0, molten = 0, maxdiff = 9999999;
+
+  while ((opt = getopt(argc, argv, "hj:qcakmtbx:v")) != -1) {
     switch (opt) {
       case 'h': show_help(EXIT_SUCCESS); break;
       case 'j': cpus = atoi(optarg); break;
