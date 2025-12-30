@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/tseemann/snp-dists.svg?branch=master)](https://travis-ci.org/tseemann/snp-dists)
+[![CI](https://github.com/tseemann/snp-dists/workflows/CI/badge.svg)](https://github.com/tseemann/snp-dists/actions)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/tseemann/snp-dists)](https://github.com/tseemann/snp-dists/releases)
 [![Bioconda downloads](https://img.shields.io/conda/dn/bioconda/snp-dists)](https://bioconda.github.io/recipes/snp-dists/README.html)
 [![License: GPLv3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -40,14 +40,9 @@ seq4            3       4       4       0
 
 `snp-dists` is written in C to the C99 standard and only depends on `zlib`.
 
-### Homebrew
-```
-brew install brewsci/bio/snp-dists
-```
-
 ### Bioconda
 ```
-conda install -c bioconda -c conda-forge snp-dists
+conda install -c bioconda snp-dists
 ```
 
 ### Source
@@ -60,8 +55,8 @@ make
 # run tests
 make check
 
-# optionally install to a specific location (default: /usr/local)
-make PREFIX=/usr/local install
+# install into $HOME/.local/bin
+make install
 ```
 
 ## Options
@@ -177,6 +172,7 @@ Report bugs and give suggesions on the
 
 ## Related software
 
+* [pairsnp](https://github.com/gtonkinhill/pairsnp)
 * [Disty](https://github.com/c2-d2/disty)
 * [Panito](https://github.com/sanger-pathogens/panito)
 * [pairwise_snp_differences](https://github.com/MDU-PHL/pairwise_snp_differences/blob/master/pairwise_snp_differences.Rmd)
