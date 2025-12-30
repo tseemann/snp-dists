@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Ofast -std=c99 -fopenmp
 LIBS = -lz -lm
 
 EXE = snp-dists
-PREFIX = /usr/local
+PREFIX = $(HOME)/.local
 TESTDIR = test
 
 .PHONY: all check clean format
