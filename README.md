@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/tseemann/snp-dists.svg?branch=master)](https://travis-ci.org/tseemann/snp-dists)
+[![CI](https://github.com/tseemann/snp-dists/workflows/CI/badge.svg)](https://github.com/tseemann/snp-dists/actions)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/tseemann/snp-dists)](https://github.com/tseemann/snp-dists/releases)
+[![Bioconda downloads](https://img.shields.io/conda/dn/bioconda/snp-dists)](https://bioconda.github.io/recipes/snp-dists/README.html)
 [![License: GPLv3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Language: C99](https://img.shields.io/badge/Language-C99-orangered.svg)](https://en.wikipedia.org/wiki/C99)
 <!-- ![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.1411986.svg) -->
@@ -38,15 +40,27 @@ seq4            3       4       4       0
 
 `snp-dists` is written in C to the C99 standard and only depends on `zlib`.
 
-### Homebrew
-```
-brew install brewsci/bio/snp-dists
-```
-
 ### Bioconda
 ```
-conda install -c bioconda -c conda-forge snp-dists
+conda install -c bioconda snp-dists
 ```
+
+### Containers
+
+Docker images are available on
+[dockerhub](https://hub.docker.com/r/staphb/snp-dists) and [quay.io](https://quay.io/repository/staphb/snp-dists).
+These are maintained by the StaPH-B workgroup. [Dockerfiles can be found here.](https://github.com/StaPH-B/docker-builds)
+
+```
+# Docker
+docker pull staphb/snp-dists:latest
+docker run staphb/snp-dists:latest snp-dists -h
+
+# Singularity
+singularity build snp-dists.sif docker://staphb/snp-dists:latest
+singularity exec snp-dists.sif snp-dists -h
+```
+
 
 ### Source
 
@@ -58,8 +72,8 @@ make
 # run tests
 make check
 
-# optionally install to a specific location (default: /usr/local)
-make PREFIX=/usr/local install
+# install into $HOME/.local/bin
+make install
 ```
 
 ## Options
@@ -67,8 +81,6 @@ make PREFIX=/usr/local install
 ### `snp-dists -h` (help)
 
 ```
-SYNOPSIS
-  Pairwise SNP distance matrix from a FASTA alignment
 USAGE
   snp-dists [opts] aligned.fasta[.gz] > matrix.tsv
 OPTIONS
@@ -82,6 +94,7 @@ OPTIONS
   -c       Use comma instead of tab in output
   -b       Blank top left corner cell
   -t       Add column headers when using molten format
+  -x INT   Stop counting distance beyond this [99999]
 URL
   https://github.com/tseemann/snp-dists
 ```
@@ -91,7 +104,7 @@ URL
 Prints the name and version separated by a space in standard Unix fashion.
 
 ```
-snp-dists 0.7.0
+snp-dists 0.9.0
 ```
 
 ### `snp-dists -q` (quiet mode)
@@ -175,20 +188,16 @@ sequence_1  sequence_2  distance
 seq1        seq1        0
 seq1        seq2        1
 seq1        seq3        2
-seq1        seq4        3
-seq2        seq1        1
-seq2        seq2        0
-seq2        seq3        3
-seq2        seq4        4
-seq3        seq1        2
-seq3        seq2        3
-seq3        seq3        0
-seq3        seq4        4
-seq4        seq1        3
-seq4        seq2        4
-seq4        seq3        4
-seq4        seq4        0
+<snip>
 ```
+### `snp-dists -x INT` (stop counting after `INT` SNPs
+
+Once a distance between two samples becomes
+very large there is often not much point 
+keeping on counting. Th` -x` option allows you
+to "short-circuit" the counting. This can reduce
+computation time significantly on large
+alignment is you only care about small distance.
 
 ## Issues
 
@@ -197,6 +206,7 @@ Report bugs and give suggesions on the
 
 ## Related software
 
+* [pairsnp](https://github.com/gtonkinhill/pairsnp)
 * [Disty](https://github.com/c2-d2/disty)
 * [Panito](https://github.com/sanger-pathogens/panito)
 * [pairwise_snp_differences](https://github.com/MDU-PHL/pairwise_snp_differences/blob/master/pairwise_snp_differences.Rmd)

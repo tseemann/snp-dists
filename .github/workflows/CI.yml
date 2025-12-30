@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: snp-dists
+          environment-file: environment.yml
+          miniforge-version: latest
+          channels: conda-forge,bioconda
+          conda-remove-defaults: true
+          channel-priority: strict
+          auto-update-conda: true
+
+      - name: Compile C code
+        run: make
+
+      - name: Run BATS test suite
+        run: bats -T --abort test/test.sh
