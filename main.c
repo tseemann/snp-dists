@@ -7,7 +7,7 @@
 #include <zlib.h>
 #include <omp.h>
 
-#define VERSION "1.0.0"
+#define VERSION "1.1.0"
 #define EXENAME "snp-dists"
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
 
@@ -42,11 +42,12 @@ void show_help(int retcode)
       "OPTIONS\n"
       "  -h       Show this help\n"
       "  -v       Print version and exit\n"
-      "  -j CPUS  Threads to use [%d]\n"
+      "  -j INT   Threads to use [%d]\n"
       "  -q       Quiet mode; no progress messages\n"
       "  -a       Count all differences not just [AGTC]\n"
       "  -k       Keep case, don't uppercase all letters\n"
       "  -m       Output MOLTEN instead of TSV\n"
+      "  -L       Ootput lower-trangle only (unique pairs)\n"
       "  -t       Add header to MOLTEN output\n"
       "  -c       Use comma instead of tab in output\n"
       "  -b       Blank top left corner cell\n"
@@ -63,8 +64,9 @@ int main(int argc, char* argv[])
   // parse command line parameters
   int opt, quiet = 0, csv = 0, corner = 1, allchars = 0, keepcase = 0;
   int  moltenheader = 0, molten = 0, maxdiff = 9999999;
+  int lower = 0;
 
-  while ((opt = getopt(argc, argv, "hj:qcakmtbx:v")) != -1) {
+  while ((opt = getopt(argc, argv, "hj:qcakmtbx:vL")) != -1) {
     switch (opt) {
       case 'h': show_help(EXIT_SUCCESS); break;
       case 'j': cpus = atoi(optarg); break;
@@ -75,6 +77,7 @@ int main(int argc, char* argv[])
       case 'm': molten = 1; break;
       case 't': moltenheader = 1; break;
       case 'b': corner = 0; break;
+      case 'L': lower = 1; break;
       case 'x': maxdiff = atol(optarg); break;
       case 'v': printf("%s %s\n", EXENAME, VERSION); exit(EXIT_SUCCESS);
       default: show_help(EXIT_FAILURE);
@@ -176,8 +179,9 @@ int main(int argc, char* argv[])
       printf("sequence_1%csequence_2%cdistance\n", sep, sep);
     }
     for (int j = 0; j < N; j++) {
+      int start = lower ? j : 0;
 #pragma omp parallel for
-      for (int i=0; i < N; i++) {
+      for (int i=start; i < N; i++) {
         size_t d = distance(seq[j], seq[i], L, maxdiff);
         printf("%s%c%s%c%zu\n", name[j], sep, name[i], sep, d);
       }
@@ -198,12 +202,12 @@ int main(int argc, char* argv[])
     // (does full matrix, wasted computation i know)
     for (int j = 0; j < N; j++) {
       printf("%s", name[j]);
+      int end = lower ? j+1 : N;
 #pragma omp parallel for
-      for (int i=0; i < N; i++) {
-        d[i] = distance(seq[j], seq[i], L, maxdiff);
-      }
-      for (int i=0; i < N; i++) {
-        printf("%c%zu", sep, d[i]);
+      for (int i=0; i < end; i++) {
+        // d[i] = distance(seq[j], seq[i], L, maxdiff);
+        size_t d = distance(seq[j], seq[i], L, maxdiff);
+        printf("%c%zu", sep, d);
       }
       printf("\n");
     }

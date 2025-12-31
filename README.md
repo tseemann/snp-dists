@@ -71,6 +71,7 @@ make
 
 # run tests
 make check
+bats test/test.sh # if you have BATS installed
 
 # install into $HOME/.local/bin
 make install
@@ -91,6 +92,7 @@ OPTIONS
   -a       Count all differences not just [AGTC]
   -k       Keep case, don't uppercase all letters
   -m       Output MOLTEN instead of TSV
+  -L       Ootput lower-trangle only (unique pairs)
   -c       Use comma instead of tab in output
   -b       Blank top left corner cell
   -t       Add column headers when using molten format
@@ -131,6 +133,14 @@ seq3    2       3       0       4
 seq4    3       4       4       0
 ```
 
+### `snp-dists -L` (lower-triangle only)
+```
+	seq1	seq2	seq3	seq4
+seq1	0
+seq2	1	0
+seq3	2	3	0
+seq4	3	4	4	0
+```
 
 ## Advanced options
 

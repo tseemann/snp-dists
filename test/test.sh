@@ -44,6 +44,9 @@ setup() {
 @test "Good" {
   run bats_pipe -0 $exe good.aln \| $compare - good.res
 }
+@test "Good -L lower triangle" {
+  run bats_pipe -0 $bin -qcbL good.aln \| $compare - good-qcbL.res
+}
 @test "Good CSV -c" {
   run bats_pipe -0 $exe -c good.aln \| $compare - good-c.res
 }
@@ -53,6 +56,12 @@ setup() {
 @test "MOLTEN with header -t" {
   run -0 $exe -m -t -c good.aln
   [[ "${lines[0]}" =~ ",distance" ]]
+}
+@test "MOLTEN -L unique pairs only" {
+  run -0 $exe -mcL good.aln
+  [[ ! "${output}" =~ "seq2,seq1" ]]
+  [[ ! "${output}" =~ "seq3,seq2" ]]
+  [[ ! "${output}" =~ "seq4,seq3" ]]
 }
 @test "Maxdist -x 1" {
   run -0 $exe -bcx 1 good.aln
