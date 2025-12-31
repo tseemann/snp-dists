@@ -7,7 +7,7 @@
 #include <zlib.h>
 #include <omp.h>
 
-#define VERSION "1.1.0"
+#define VERSION "1.2.0"
 #define EXENAME "snp-dists"
 #define GITHUB_URL "https://github.com/tseemann/snp-dists"
 
@@ -178,9 +178,9 @@ int main(int argc, char* argv[])
     if (moltenheader) {
       printf("sequence_1%csequence_2%cdistance\n", sep, sep);
     }
+#pragma omp parallel for
     for (int j = 0; j < N; j++) {
       int start = lower ? j : 0;
-#pragma omp parallel for
       for (int i=start; i < N; i++) {
         size_t d = distance(seq[j], seq[i], L, maxdiff);
         printf("%s%c%s%c%zu\n", name[j], sep, name[i], sep, d);
@@ -200,10 +200,10 @@ int main(int argc, char* argv[])
 
     // Output the distance matrix to stdout
     // (does full matrix, wasted computation i know)
+#pragma omp parallel for
     for (int j = 0; j < N; j++) {
       printf("%s", name[j]);
       int end = lower ? j+1 : N;
-#pragma omp parallel for
       for (int i=0; i < end; i++) {
         // d[i] = distance(seq[j], seq[i], L, maxdiff);
         size_t d = distance(seq[j], seq[i], L, maxdiff);
