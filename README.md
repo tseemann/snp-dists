@@ -92,7 +92,7 @@ OPTIONS
   -a       Count all differences not just [AGTC]
   -k       Keep case, don't uppercase all letters
   -m       Output MOLTEN instead of TSV
-  -L       Ootput lower-trangle only (unique pairs)
+  -L       Output lower-triangle only (unique pairs)
   -c       Use comma instead of tab in output
   -b       Blank top left corner cell
   -t       Add column headers when using molten format
