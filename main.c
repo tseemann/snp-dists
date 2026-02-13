@@ -47,7 +47,7 @@ void show_help(int retcode)
       "  -a       Count all differences not just [AGTC]\n"
       "  -k       Keep case, don't uppercase all letters\n"
       "  -m       Output MOLTEN instead of TSV\n"
-      "  -L       Ootput lower-trangle only (unique pairs)\n"
+      "  -L       Output lower-triangle only (unique pairs)\n"
       "  -t       Add header to MOLTEN output\n"
       "  -c       Use comma instead of tab in output\n"
       "  -b       Blank top left corner cell\n"
